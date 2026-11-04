@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魔法のティーポット | 森のカフェ</title>
+<meta name="description" content="森の中にある、童話の世界へ迷い込んだようなカフェ『魔法のティーポット』。さぁ、今日のおはなしを淹れましょう。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-illust"></div>
+  <div class="loading-content">
+    <p class="loading-welcome" aria-label="ようこそ">
+      <span>よ</span><span>う</span><span>こ</span><span>そ</span>
+    </p>
+    <div class="loading-foots"></div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site-header">
+  <a href="#hero" class="logo">
+    <img src="assets/images/logo/logo_CLR.png" alt="魔法のティーポット" id="headerLogo">
+  </a>
+  <nav class="site-nav" id="siteNav">
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-list">
+      <li class="nav-item"><a href="#concept" class="nav-link">Consept<span class="nav-sub">森のおはなし</span></a></li>
+      <li class="nav-item"><a href="#menu" class="nav-link">Menu<span class="nav-sub">魔法の石板</span></a></li>
+      <li class="nav-item"><a href="#news" class="nav-link">News<span class="nav-sub">フクロウのお知らせ</span></a></li>
+      <li class="nav-item"><a href="#map" class="nav-link">Map<span class="nav-sub">森への入り口</span></a></li>
+      <!-- スマートフォンのメニュー(モーダル)だけに出る: SNSのどんぐり -->
+      <li class="nav-extra nav-sns">
+        <a href="#" aria-label="X（Twitter）"><img src="assets/images/news/01Twitter.png" alt=""><span>X(Twitter)</span></a>
+        <a href="#" aria-label="Instagram"><img src="assets/images/news/02Instagram.png" alt=""><span>Instagram</span></a>
+        <a href="#" aria-label="Facebook"><img src="assets/images/news/03Facebook.png" alt=""><span>Facebook</span></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<a href="#news" class="notice-badge">
+  <span class="notice-badge-text">お知らせです</span>
+  <img class="notice-badge-owl" src="assets/images/characters/fukurouStop.png" alt="フクロウ">
+</a>
+
+<!-- 絵本のページのように、画面1枚ごとに場面が切り替わる（PC）。スマホ・タブレットは縦に並べて表示 -->
+<!-- タブレット: 縦長の画面の左右の余白。左にナビゲーション、右にお知らせバッジと動物のカウンター（スマートフォンでは出さない）。イラストは、.side-art に入れる -->
+<aside class="side side--l" id="sideLeft"><div class="side-art" aria-hidden="true"></div></aside>
+<aside class="side side--r" id="sideRight"><div class="side-art" aria-hidden="true"></div></aside>
+
+<main class="stage" id="stage">
+
+  <!-- 01: Hero -->
+  <section class="scene scene-hero hero" id="hero">
+    <!-- 背景・ティーセット・吹き出しは、すべて 1920x1080 を基準にした%指定（画面を埋める大きさで拡大縮小） -->
+    <div class="hero-canvas">
+      <picture>
+        <source media="(max-width: 1199px)" srcset="assets/images/hero/sp/HeroBack.jpg">
+        <img class="hero-bg" src="assets/images/hero/Top.jpg" alt="">
+      </picture>
+      <div class="hero-cloud reveal">
+        <img src="assets/images/hero/Hero_Fukidashi.png" alt="">
+      </div>
+      <!-- ティーセットの切り抜き: 吹き出しより手前に重ね、吹き出しがポットの後ろに回る -->
+      <picture>
+        <source media="(max-width: 1199px)" srcset="assets/images/hero/sp/TeaSet.webp">
+        <img class="hero-teaset" src="assets/images/hero/TeaSet.png" alt="ティーセット">
+      </picture>
+      <div class="hero-copy reveal" style="transition-delay:.5s;">
+        <img src="assets/images/hero/heroTitle.png" alt="さぁ、今日のおはなしを淹れましょう">
+      </div>
+    </div>
+  </section>
+
+  <!-- 06-08: Concept -->
+  <section class="scene scene-concept concept-page" id="concept">
+    <div class="concept-hero">
+      <div class="section-title reveal">
+        <img src="assets/images/concept/title01.png" alt="Concept 森のおはなし">
+      </div>
+    </div>
+
+    <div class="concept-track">
+      <!-- 本文は企画書のブランドコンセプトを基にした仮コピーです。差し替え可能です -->
+      <div class="concept-foots" aria-hidden="true"></div>
+
+      <div class="concept-block reveal" style="transition-delay: .25s;">
+        <p>森の奥に、小さな緑のトンネルがあります。木漏れ日の小道をたどっていくと、その先にひっそりと佇む一軒のティールーム——それが『魔法のティーポット』。</p>
+        <p>扉を開けたその瞬間から、ここは少しだけ不思議な森の中。</p>
+      </div>
+
+      <div class="concept-block reveal" style="transition-delay: .75s;">
+        <p>野うさぎやフクロウ、リスたちが暮らす森の仲間たちが、今日もどこかから顔をのぞかせています。</p>
+        <p>日常を少しだけ忘れて、童話のページをめくるように過ごす時間を。</p>
+      </div>
+
+      <div class="concept-block reveal" style="transition-delay: 1.25s;">
+        <p>魔法は、控えめに。</p>
+        <p>本当に存在するかもしれない——そんな余白を大切にしながら、一冊の童話のように味わえるひとときをご用意しました。</p>
+      </div>
+    </div>
+    <button type="button" class="hidden-animal hidden-animal--concept-deer" data-animal-id="deer" data-animal-img="assets/images/characters/animals/shika.png" data-animal-name="しかのモミジ" data-animal-desc="森の小道で、いちばんやさしい目をした子鹿。ティールームのお客さまを、そっと見守っています。" aria-label="かくれている動物"><img src="assets/images/characters/animals/shika.png" alt=""></button>
+  <button type="button" class="hidden-animal hidden-animal--concept-rabbit" data-animal-id="rabbit" data-animal-img="assets/images/characters/animals/usagi.png" data-animal-name="うさぎのポポ" data-animal-desc="おしゃべりな野うさぎ。フクロウのお知らせを、いつも一番に聞きにきます。" aria-label="かくれている動物"><img src="assets/images/characters/animals/usagi.png" alt=""></button>
+  </section>
+
+  <!-- 09: Menu -->
+  <section class="scene scene-menu menu-page" id="menu">
+    <div class="menu-hero">
+      <div class="section-title reveal">
+        <img src="assets/images/menu/title02.png" alt="Menu 魔法の石板">
+      </div>
+    </div>
+
+    <div class="menu-stage" id="menuStage">
+      <div class="menu-tablet-wrap" id="menuTabletWrap">
+        <picture>
+          <source media="(max-width: 1199px)" srcset="assets/images/menu/sp/MenuBack.jpg">
+          <img class="menu-tablet-bg" src="assets/images/menu/menu_base.jpg" alt="森の中の石板">
+        </picture>
+        <!-- menu_back.jpg と同じ位置に、ウサギとタヌキを個別の絵として配置（ウサギが走り終えたあとで現れる） -->
+        <button type="button" class="menu-animal menu-animal--usagi" data-menu-open aria-label="メニュー一覧を見る"><img src="assets/images/characters/usagi.png" alt=""><span class="menu-animal-bubble">メニュー一覧を見ますか？</span></button>
+        <button type="button" class="menu-animal menu-animal--tanuki" data-menu-open aria-label="メニュー一覧を見る"><img src="assets/images/characters/tanuki.png" alt=""><span class="menu-animal-bubble">ぜんぶのメニュー見る？</span></button>
+
+        <!-- 画面中央上から石板の左側を回って走ってくるウサギ（コマ送り） -->
+        <div class="menu-rabbit-run" aria-hidden="true">
+          <img class="menu-rabbit-frame menu-rabbit-frame--a" src="assets/images/characters/usagiRun01.png" alt="">
+          <img class="menu-rabbit-frame menu-rabbit-frame--b" src="assets/images/characters/usagiRun02.png" alt="">
+        </div>
+
+        <div class="menu-slides" id="menuSlides">
+          <article class="menu-slide is-active">
+            <img class="menu-slide-photo" src="assets/images/food/berrypai.png" alt="おばあちゃんのベリーパイ">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>おばあちゃんのベリーパイ</h3><span class="menu-badge">期間限定</span></div>
+              <p class="menu-subtitle menu-subtitle--sweets">焼きたての香りは、今日も森の奥から届きました</p>
+              <p class="menu-desc">森で摘んだベリーをたっぷり詰め、格子状のパイ生地で包んで焼き上げました。ざくっと崩れる生地から、甘酸っぱいベリーがとろりとあふれます。どこか懐かしい、おばあちゃんの味です。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/hosizora.png" alt="星夜の忘れ物">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>星夜の忘れ物</h3></div>
+              <p class="menu-subtitle menu-subtitle--sweets">あの夜、空からこぼれた小さなきらめきを閉じ込めました</p>
+              <p class="menu-desc">丸いグラスに、夜空を閉じ込めたデザートです。いちばん上は、星がまたたく透明感のある星空ゼリー。その下に、なめらかなレアチーズクリームとブルーベリーのムースが重なっています。スプーンを深く入れて、星空から夜の底までを一緒にお楽しみください。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/fushigisyu-.png" alt="フシギなシュークリーム">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>フシギなシュークリーム</h3></div>
+              <p class="menu-subtitle menu-subtitle--sweets">今日の中身は、開けてからのお楽しみ</p>
+              <p class="menu-desc">中身が季節で替わる、森の気まぐれシュークリームです。旬のフルーツと、ふわふわの生クリーム、さらにもう1種類のクリームをはさみました。今日はどんな組み合わせに出会えるか、ぜひ確かめに来てください。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/henzel.png" alt="落とし物の帰り道">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>落とし物の帰り道</h3></div>
+              <p class="menu-subtitle menu-subtitle--sweets">森の小道に落としたものが、ちゃんと帰り道を教えてくれます</p>
+              <p class="menu-desc">クルミとナッツ、ビスケット、チョコチップをたっぷり練り込んだ、ザクザク食感のスコーンです。生地からこぼれた具材を、道に落ちたパンくずに見立てました。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/apple.png" alt="魔女がくれたリンゴのパイ">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>魔女がくれたリンゴのパイ</h3></div>
+              <p class="menu-subtitle menu-subtitle--sweets">ひと口かじれば、森中が甘い香りに包まれます</p>
+              <p class="menu-desc">サクサクのパイ生地に、シナモンを効かせたリンゴを詰めた、クラシックなスタイルのアップルパイです。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/makaron.png" alt="月明かりの音楽隊">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>月明かりの音楽隊</h3></div>
+              <p class="menu-subtitle menu-subtitle--sweets">今夜も森のどこかで、小さな演奏会が始まります</p>
+              <p class="menu-desc">4匹の動物たちが奏でる、小さなマカロンの音楽隊です。にわとりはコーヒー、ねこは抹茶、いぬはいちご、ろばはホワイトチョコの味。ブレーメンの音楽隊を思わせる、森の演奏会のメンバーです。お好みの1匹も、全員そろえて楽しむのもおすすめです。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/jack.png" alt="魔法の豆スコーン">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>魔法の豆スコーン</h3></div>
+              <p class="menu-subtitle menu-subtitle--sweets">ひと粒植えたら、朝には雲よりも高くなっていました</p>
+              <p class="menu-desc">豆の木の緑に見立てた、抹茶味のスコーンです。豆の形のホワイトチョコチップを入れ、抹茶のほろ苦さとミルキーな甘さを合わせました。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/minikui.png" alt="白鳥の羽のミルクプリン">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>白鳥の羽のミルクプリン</h3></div>
+              <p class="menu-subtitle menu-subtitle--sweets">いつか羽ばたく日を夢見て、そっと羽を休めています</p>
+              <p class="menu-desc">透明なグラスに入った、なめらかなミルクプリンです。白鳥の羽を模した飴細工をのせました。飴は外して崩しても、プリンに添えて味わっても楽しめます。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/tea-a.jpg" alt="星降る夜に">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>星降る夜に</h3></div>
+              <p class="menu-subtitle menu-subtitle--drink">お月さまをひとつ浮かべたら、夜空が色づきはじめます</p>
+              <p class="menu-desc">バタフライピーのブレンドティーです。深い青色のお茶に、添えたレモンのスライスをそっと浮かべると、星空のように青から紫、ピンクへと色が移ろいます。口あたりはすっきりとして、ほんのり爽やかな香りです。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/tea-b.jpg" alt="花降らしの時">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>花降らしの時</h3></div>
+              <p class="menu-subtitle menu-subtitle--drink">あなたの元へ舞い散る花びらを閉じ込めました</p>
+              <p class="menu-desc">ジャスミン茶に、食用の花びらをあわせたフラワーティーです。透明なポットにお湯を注ぐと、花びらがふわりと舞い上がります。花の香りをまとった、やわらかな味わいです。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/tea-c.jpg" alt="野うさぎの午後">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>野うさぎの午後</h3></div>
+              <p class="menu-subtitle menu-subtitle--drink">野うさぎが素敵なプレゼントをくれました</p>
+              <p class="menu-desc">烏龍茶に、カモミールとリンゴの香りをあわせたブレンドティーです。野うさぎからの贈り物のような、立体的に凍らせた花を添えてお出しします。氷がゆっくりとけるにつれて、花がほどけ、香りと味が少しずつ移ろいます。ゆったりした午後の時間とともに、お楽しみください。</p>
+            </div>
+          </article>
+
+          <article class="menu-slide">
+            <img class="menu-slide-photo" src="assets/images/food/tea-d.jpg" alt="朝焼けの祝福">
+            <div class="menu-slide-copy">
+              <div class="menu-title-row"><h3>朝焼けの祝福</h3></div>
+              <p class="menu-subtitle menu-subtitle--drink">森の恵みが新しい朝を連れてきます</p>
+              <p class="menu-desc">ハイビスカスとルイボスをあわせた、朝焼け色のブレンドティーです。そのままだと、ほんのり酸味のあるすっきりした味わいです。森の恵みのはちみつを添えてお出しします。溶かすと、まろやかな甘さに変わります。</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="menu-flash" id="menuFlash"></div>
+        <button class="menu-nav menu-nav--prev" id="menuPrev" aria-label="前のメニュー"></button>
+        <button class="menu-nav menu-nav--next" id="menuNext" aria-label="次のメニュー"></button>
+        <div class="menu-dots" id="menuDots"></div>
+      </div>
+    </div>
+    <button type="button" class="hidden-animal hidden-animal--menu" data-animal-id="squirrel" data-animal-img="assets/images/characters/animals/risu.png" data-animal-name="リスのクルミ" data-animal-desc="どんぐり集めの名人。石板のまわりで、隠したどんぐりの場所を思い出しています。" aria-label="かくれている動物"><img src="assets/images/characters/animals/risu.png" alt=""></button>
+  </section>
+
+  <!-- 13: News（右からスライドインして、Menuを覆う） -->
+  <section class="scene scene-news news-page" id="news">
+    <!-- フクロウ: 左上から飛んできて、右の枝にとまる（縮尺のかかるキャンバスの外に置く） -->
+    <div class="news-owls" id="newsOwls" aria-hidden="false">
+      <div class="news-owl-flying" aria-hidden="true">
+        <img class="owl-frame owl-frame--1" src="assets/images/characters/fukurou01.png" alt="">
+        <img class="owl-frame owl-frame--2" src="assets/images/characters/fukurou02.png" alt="">
+        <img class="owl-frame owl-frame--3" src="assets/images/characters/fukurou03.png" alt="">
+      </div>
+      <img class="news-owl-perched" src="assets/images/characters/fukurouStop.png" alt="枝にとまったフクロウ">
+    </div>
+    <div class="section-title reveal">
+      <img src="assets/images/news/title03.png" alt="News フクロウのお知らせ">
+    </div>
+    <div class="scene-canvas">
+      <div class="news-hero">
+
+        <p class="news-lead reveal">フクロウが手紙を持ってきてくれました</p>
+      </div>
+
+      <div class="news-list">
+        <!-- クリックで全文の表示／折りたたみ。アイコン: 開いている=手紙(mail02) / 閉じている=巻物(mail01) -->
+        <article class="news-item is-open" role="button" tabindex="0" aria-expanded="true">
+          <div class="news-icon" aria-hidden="true">
+            <img class="news-icon-closed" src="assets/images/news/mail01.png" alt="">
+            <img class="news-icon-open" src="assets/images/news/mail02.png" alt="">
+          </div>
+          <div class="news-bubble">
+            <span class="news-date">2026.8.20</span>
+            <h3>リニューアルオープンのお知らせ</h3>
+            <div class="news-body"><p>お待たせいたしました！
+店舗の改装が完了しました！
+これに伴い、現在の臨時店舗での営業を8月いっぱいで終了し、9月からは新しい店舗での営業となります。</p></div>
+          </div>
+        </article>
+
+        <article class="news-item" role="button" tabindex="0" aria-expanded="false">
+          <div class="news-icon" aria-hidden="true">
+            <img class="news-icon-closed" src="assets/images/news/mail01.png" alt="">
+            <img class="news-icon-open" src="assets/images/news/mail02.png" alt="">
+          </div>
+          <div class="news-bubble">
+            <span class="news-date">2026.8.8</span>
+            <h3>夏まつり2026に参加します！</h3>
+            <div class="news-body"><p>森の夏まつりに、魔法のティーポットも出店いたします。詳細は追ってお知らせいたします。</p></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="acorn-sns reveal">
+        <!-- リス: ホバー／クリックで吹き出し -->
+        <button type="button" class="acorn-risu" id="acornRisu" aria-label="リス：フォローしてください！"><img src="assets/images/characters/risu.png" alt=""><span class="acorn-risu-bubble">フォローしてください！</span></button>
+        <h3 class="acorn-title"><img src="assets/images/news/title03-2.png" alt="伝えるどんぐり"></h3>
+        <p>リスが不思議などんぐりを見つけました</p>
+        <div class="acorn-list">
+          <a class="acorn-item" href="#" aria-label="X（Twitter）">
+            <div class="acorn-icon">
+              <img src="assets/images/news/01Twitter.png" alt="">
+            </div>
+            <span>X(Twitter)</span>
+          </a>
+          <a class="acorn-item" href="#" aria-label="Instagram">
+            <div class="acorn-icon">
+              <img src="assets/images/news/02Instagram.png" alt="">
+            </div>
+            <span>Instagram</span>
+          </a>
+          <a class="acorn-item" href="#" aria-label="Facebook">
+            <div class="acorn-icon">
+              <img src="assets/images/news/03Facebook.png" alt="">
+            </div>
+            <span>Facebook</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="hidden-animal hidden-animal--news" data-animal-id="tanuki" data-animal-img="assets/images/characters/animals/tanuki.png" data-animal-name="たぬきのポンタ" data-animal-desc="のんびり屋の森の案内人。フクロウのお知らせを、ゆっくり読むのが好きです。" aria-label="かくれている動物"><img src="assets/images/characters/animals/tanuki.png" alt=""></button>
+  </section>
+
+  <!-- 14: Map -->
+  <section class="scene scene-map map-page" id="map">
+    <div class="section-title reveal">
+      <img src="assets/images/map/title04.png" alt="Map 森への入り口">
+    </div>
+    <!-- スマートフォン・タブレット用のリード文（PCは、下の .map-copy を使う） -->
+    <p class="map-lead-sp reveal">地図の先には、少しだけ不思議な家があります</p>
+    <div class="scene-canvas">
+      <!-- 巻物（地図と営業時間の後ろ）。背景とは別素材 -->
+      <img class="map-scroll" src="assets/images/map/map-scroll.webp" alt="">
+      <div class="map-hero">
+        <p class="map-copy reveal">地図の先には、少しだけ不思議な家があります</p>
+      </div>
+
+      <div class="map-content">
+        <!-- 仮: 出雲大社のピン。店舗の場所が決まったら src の q= を住所などに差し替えてください -->
+        <div class="map-frame" id="mapFrame">
+          <iframe title="地図（仮: 出雲大社）" src="https://www.google.com/maps?q=%E5%87%BA%E9%9B%B2%E5%A4%A7%E7%A4%BE&hl=ja&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+
+        <!-- 営業時間・住所などは仮の内容です。決まり次第差し替えてください -->
+        <dl class="map-info">
+          <div class="map-row">
+            <dt>営業時間</dt>
+            <dd>11:00-16:00<small>（ラストオーダー15:30）</small></dd>
+          </div>
+          <div class="map-row">
+            <dt>定休日</dt>
+            <dd>水曜日</dd>
+          </div>
+          <div class="map-row">
+            <dt>住所</dt>
+            <dd>くじら県カツオ市<br>アジ町にぼし22-2</dd>
+          </div>
+          <div class="map-row">
+            <dt>目印</dt>
+            <dd>赤い屋根と水色のドア</dd>
+          </div>
+        </dl>
+      </div>
+      <!-- シカ（背景とは別素材）。PCは巻物の左、スマートフォン・タブレットは地図の右下 -->
+      <img class="map-deer" src="assets/images/characters/shika.png" alt="">
+    </div>
+    <button type="button" class="hidden-animal hidden-animal--map" data-animal-id="boar" data-animal-img="assets/images/characters/animals/inoshishi.png" data-animal-name="いのししのドンタ" data-animal-desc="力持ちで、とっても食いしん坊。森の小道に落ちたどんぐりを、いつも探しています。" aria-label="かくれている動物"><img src="assets/images/characters/animals/inoshishi.png" alt=""></button>
+  </section>
+
+  <!-- 15: Footer -->
+  <footer class="scene site-footer scene-footer" id="siteFooter">
+    <div class="footer-scene">
+      <img src="assets/images/decorations/footerIllust.png" alt="扉の前で顔をのぞかせる野うさぎ">
+    </div>
+    <div class="scene-canvas footer-canvas">
+      <div class="footer-content">
+        <div class="footer-title reveal">
+          <img src="assets/images/footer/footerTitle.png" alt="扉を開ける準備ができたら、いつでもどうぞ">
+        </div>
+        <ul class="footer-nav reveal" style="transition-delay:.2s;">
+          <li><a href="#concept"><em class="footer-nav-en">Consept</em><span>森のおはなし</span></a></li>
+          <li><a href="#menu"><em class="footer-nav-en">Menu</em><span>魔法の石板</span></a></li>
+          <li><a href="#news"><em class="footer-nav-en">News</em><span>フクロウのお知らせ</span></a></li>
+          <li><a href="#map"><em class="footer-nav-en">Map</em><span>森への入り口</span></a></li>
+        </ul>
+        <div class="footer-sns reveal" style="transition-delay:.4s;">
+          <a href="#" aria-label="X（Twitter）"><img src="assets/images/news/01Twitter.png" alt=""><span>X(Twitter)</span></a>
+          <a href="#" aria-label="Instagram"><img src="assets/images/news/02Instagram.png" alt=""><span>Instagram</span></a>
+          <a href="#" aria-label="Facebook"><img src="assets/images/news/03Facebook.png" alt=""><span>Facebook</span></a>
+        </div>
+        <div class="footer-logo reveal" style="transition-delay:.6s;">
+          <a href="#hero" aria-label="ページトップへ戻る"><img src="assets/images/logo/logo_CLR.png" alt="魔法のティーポット"></a>
+        </div>
+        <p class="footer-copyright reveal" style="transition-delay:.6s;">©mahou_no_teapot.2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 場面の切り替え演出（PCのみ）。時間で動く -->
+  <div class="fx fx-steam" aria-hidden="true">
+    <div class="fx-steam-bg"></div>
+    <img class="steam-layer steam-layer--1" src="assets/images/hero/yuge00.png" alt="">
+    <img class="steam-layer steam-layer--2" src="assets/images/hero/yuge01.png" alt="">
+    <img class="steam-layer steam-layer--3" src="assets/images/hero/yuge02.png" alt="">
+    <img class="steam-layer steam-layer--4" src="assets/images/hero/yuge03.png" alt="">
+    <!-- スマートフォン・タブレット用: ポットから湯気が増えて、下へずれていく4コマ -->
+    <img class="steam-sp steam-sp--0" src="assets/images/hero/sp/yuge00.webp" alt="">
+    <img class="steam-sp steam-sp--1" src="assets/images/hero/sp/yuge01.webp" alt="">
+    <img class="steam-sp steam-sp--2" src="assets/images/hero/sp/yuge02.webp" alt="">
+    <img class="steam-sp steam-sp--3" src="assets/images/hero/sp/yuge03.jpg" alt="">
+  </div>
+  <div class="fx fx-canopy" aria-hidden="true">
+    <div class="fx-canopy-img"></div>
+  </div>
+  <div class="fx fx-trees" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 1199px)" srcset="assets/images/decorations/sp/slideTree01.webp">
+      <img class="trees-panel trees-panel--left" src="assets/images/decorations/slideTree01.png" alt="">
+    </picture>
+    <picture>
+      <source media="(max-width: 1199px)" srcset="assets/images/decorations/sp/slideTree02.webp">
+      <img class="trees-panel trees-panel--right" src="assets/images/decorations/slideTree02.png" alt="">
+    </picture>
+  </div>
+  <!-- スマートフォン・タブレット用: Menu → News。下から紙色の面がせり上がり、右下から左上へフクロウが飛び去る -->
+  <div class="fx fx-rise" aria-hidden="true">
+    <div class="fx-rise-paper"></div>
+    <div class="fx-rise-owl">
+      <img class="rise-owl-frame rise-owl-frame--1" src="assets/images/characters/fukurou01.png" alt="">
+      <img class="rise-owl-frame rise-owl-frame--2" src="assets/images/characters/fukurou02.png" alt="">
+      <img class="rise-owl-frame rise-owl-frame--3" src="assets/images/characters/fukurou03.png" alt="">
+    </div>
+  </div>
+  <div class="fx fx-flash" aria-hidden="true"></div>
+
+</main>
+
+<!-- メニュー一覧（モーダル）。価格はラフの画像の金額です。変更はここで -->
+<div class="menu-modal" id="menuModal" role="dialog" aria-modal="true" aria-labelledby="menuModalTitle">
+  <div class="menu-modal-card">
+    <button class="menu-modal-close" id="menuModalClose" aria-label="閉じる">×</button>
+    <div class="menu-modal-top">
+      <img class="menu-modal-logo" src="assets/images/logo/logo_CLR.png" alt="魔法のティーポット">
+      <h2 class="menu-modal-title" id="menuModalTitle">MENU</h2>
+    </div>
+
+    <section class="menu-modal-section">
+      <h3 class="menu-modal-head">ドリンク</h3>
+      <div class="menu-modal-cols">
+        <div class="menu-modal-col menu-modal-col--tea">
+          <p class="menu-modal-label">BlendTea</p>
+          <ul class="menu-list">
+            <li>
+              <div class="menu-list-row"><span class="menu-list-name">星降る夜に</span><span class="menu-list-price">¥700</span></div>
+              <p class="menu-list-desc">バタフライピーのブレンドティー</p>
+            </li>
+            <li>
+              <div class="menu-list-row"><span class="menu-list-name">花降らしの時</span><span class="menu-list-price">¥750</span></div>
+              <p class="menu-list-desc">ジャスミン茶のフラワーティー</p>
+            </li>
+            <li>
+              <div class="menu-list-row"><span class="menu-list-name">野うさぎの午後</span><span class="menu-list-price">¥750</span></div>
+              <p class="menu-list-desc">烏龍茶のブレンドティー</p>
+            </li>
+            <li>
+              <div class="menu-list-row"><span class="menu-list-name">朝焼けの祝福</span><span class="menu-list-price">¥780</span></div>
+              <p class="menu-list-desc">ハイビスカスとルイボスのブレンドティー</p>
+            </li>
+          </ul>
+        </div>
+        <div class="menu-modal-col">
+          <p class="menu-modal-label">Other</p>
+          <ul class="menu-list">
+            <li><div class="menu-list-row"><span class="menu-list-name">コーヒー</span><span class="menu-list-price">¥650</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">カフェラテ</span><span class="menu-list-price">¥750</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">抹茶ラテ</span><span class="menu-list-price">¥780</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">ほうじ茶ラテ</span><span class="menu-list-price">¥750</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">緑茶</span><span class="menu-list-price">¥550</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">ほうじ茶</span><span class="menu-list-price">¥550</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">ミルク</span><span class="menu-list-price">¥350</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">レモネード</span><span class="menu-list-price">¥600</span></div></li>
+            <li><div class="menu-list-row"><span class="menu-list-name">季節のジュース</span><span class="menu-list-price">¥800</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="menu-modal-section">
+      <h3 class="menu-modal-head menu-modal-head--sweets">スイーツ</h3>
+      <ul class="menu-list menu-list--sweets">
+        <li><span class="menu-list-name">おばあちゃんのベリーパイ</span><span class="menu-list-price">¥680</span><span class="menu-list-note">（ホール：¥4800）</span></li>
+        <li><span class="menu-list-name">星夜の忘れ物<small class="menu-list-kind">（ゼリー＆ムース）</small></span><span class="menu-list-price">¥550</span><span class="menu-list-note"></span></li>
+        <li><span class="menu-list-name">フシギなシュークリーム</span><span class="menu-list-price">¥580</span><span class="menu-list-note"></span></li>
+        <li><span class="menu-list-name">落とし物の帰り道<small class="menu-list-kind">（スコーン）</small></span><span class="menu-list-price">¥350</span><span class="menu-list-note"></span></li>
+        <li><span class="menu-list-name">魔女がくれたリンゴのパイ</span><span class="menu-list-price">¥520</span><span class="menu-list-note">（ホール：¥4000）</span></li>
+        <li><span class="menu-list-name">月明かりの音楽隊<small class="menu-list-kind">（マカロン）</small></span><span class="menu-list-price">¥180/個・¥680/セット</span></li>
+        <li><span class="menu-list-name">魔法の豆スコーン</span><span class="menu-list-price">¥300</span><span class="menu-list-note"></span></li>
+        <li><span class="menu-list-name">白鳥の羽のミルクプリン</span><span class="menu-list-price">¥420</span><span class="menu-list-note"></span></li>
+      </ul>
+    </section>
+  </div>
+</div>
+<!-- 動物を見つけたとき: 動物が飛び出し、まわりが暗くなり、動物のそばに吹き出しが出る -->
+<div class="animal-dim" id="animalDim" aria-hidden="true"></div>
+<div class="animal-spot" aria-live="polite">
+  <div class="animal-wrap" id="animalWrap"><img id="animalSpotImg" src="" alt=""></div>
+  <div class="animal-bubble" id="animalBubble" role="dialog" aria-label="見つけた動物">
+    <button type="button" class="animal-bubble-close" id="animalClose" aria-label="閉じる">×</button>
+    <h3 id="animalName"></h3>
+    <p id="animalDesc"></p>
+    <small id="animalFound"></small>
+  </div>
+</div><div class="rabbit-count" id="rabbitCount"><span class="rabbit-count-hero">🐾 森の動物と隠れんぼ</span><span class="rabbit-count-start">↓START！</span><span class="rabbit-count-main" id="rabbitCountMain">🐾 見つけた動物 0/5</span></div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
