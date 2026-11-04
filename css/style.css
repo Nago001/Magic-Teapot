@@ -1,0 +1,2441 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Quicksand:wght@400;500;600&display=swap");
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, h1, h2, h3, h4, p, ul, ol, li, figure, figcaption { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; background: none; border: none; cursor: pointer; padding: 0; }
+
+/* ==========================================================================
+   Variables
+   ========================================================================== */
+:root {
+  /* colors */
+  --color-bg: #F8F3E9;
+  --color-bg-soft: #ece3d2;
+  --color-bg-paper: #f8f4e9;
+  --color-ink: #4b4137;
+  --color-ink-soft: #776b5c;
+  --color-blue: #5f89a8;
+  --color-blue-deep: #43617a;
+  --color-pink: #e08aa8;
+  --color-pink-pale: #f4d3de;
+  --color-brown: #5a4a3a;
+  --color-white: #ffffff;
+  --color-line: #d9cfba;
+
+  /* type */
+  --font-heading: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "游ゴシック Medium", sans-serif;
+  --font-body: "Zen Maru Gothic", "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  --font-en: "Quicksand", var(--font-body);
+
+  /* layout */
+  --header-h: 84px;
+  --radius-m: 16px;
+  --radius-l: 28px;
+  --shadow-soft: 0 12px 30px rgba(74, 65, 55, 0.12);
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.9;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+section { position: relative; }
+
+/* ==========================================================================
+   Reveal on scroll
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .9s var(--ease), transform .9s var(--ease);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal.drop-in { transform: translateY(-46px); }
+.reveal.drop-in.is-visible {
+  transform: translateY(0);
+  transition: opacity .6s var(--ease), transform .6s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* ==========================================================================
+   Header / Nav
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding: 0 40px;
+  transition: background .3s var(--ease);
+}
+
+.site-header .logo img {
+  height: 40px;
+  width: auto;
+  backdrop-filter: blur(6px);
+  padding: 4px 16px;
+  border-radius: 999px;
+}
+
+.site-nav { display: flex; align-items: center; }
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  background: var(--color-bg);
+  padding: 8px 32px;
+  border-radius: 999px;
+}
+
+.nav-link {
+  position: relative;
+  display: block;
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-ink-soft);
+  letter-spacing: .02em;
+  padding-bottom: 4px;
+  transition: color .25s var(--ease);
+}
+
+.nav-link .nav-sub {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  font-family: var(--font-body);
+  font-size: .68rem;
+  font-weight: 500;
+  color: var(--color-pink);
+  background: var(--color-pink-pale);
+  border-radius: 999px;
+  padding: 1px 10px;
+  margin-top: 5px;
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  height: 2px;
+  background: var(--color-pink);
+  transform: scaleX(0);
+  transition: transform .25s var(--ease);
+}
+
+.nav-link:hover { color: var(--color-pink); }
+.nav-link:hover::after { transform: scaleX(1); }
+.nav-link:hover .nav-sub { opacity: 1; transform: translate(-50%, 0); }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--color-blue-deep);
+  border-radius: 2px;
+  transition: transform .3s var(--ease), opacity .3s var(--ease);
+}
+.nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.is-open span:nth-child(2) { opacity: 0; }
+.nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-extra { display: none; }
+
+/* ==========================================================================
+   Notice badge (Hero corner)
+   ========================================================================== */
+.notice-badge {
+  position: fixed;
+  top: calc(var(--header-h) + 3rem);
+  right: 0;
+  z-index: 150;
+  width: clamp(140px, 18vh, 320px);   /* 画面の高さに合わせて大きくなる */
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transition: opacity .3s var(--ease), visibility .3s var(--ease);
+}
+body.is-news-active .notice-badge,
+body.is-footer-active .notice-badge {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.notice-badge-text {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-brown);
+  color: var(--color-white);
+  font-size: .8rem;
+  padding: 8px 18px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  margin-right: 4rem;
+  margin-bottom: calc(9px + 1rem);
+  white-space: nowrap;
+}
+.notice-badge-text::after {
+  content: "";
+  position: absolute;
+  right: 2rem;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 10px solid var(--color-brown);
+}
+.notice-badge-owl {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* タブレット幅(1199px以下): ヘッダーはPCと同じまま、フクロウのバッジだけ右下に移す */
+@media (max-width: 1199px) {
+  .notice-badge { top: auto; bottom: 20px; right: 0; width: clamp(110px, 13vh, 220px); max-width: none; }
+  .notice-badge-text { margin-right: 2.2rem; }
+}
+
+
+/* ==========================================================================
+   Section heading (image-based titles)
+   ========================================================================== */
+.section-title {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.section-title img {
+  margin: 0 auto;
+  height: 60px;
+  width: auto;
+  max-width: none;
+}
+
+/* ==========================================================================
+   Loading screen
+   ========================================================================== */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--color-bg-soft) url("../assets/images/loading/back.jpg") center / cover no-repeat;
+  overflow: hidden;
+  transition: opacity .8s var(--ease), visibility .8s var(--ease);
+  width: 100%;
+  height: 100%;
+}
+.loading-screen.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loading-illust {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  width: max(480px, 40vw);
+  height: 100%;
+  background: url("../assets/images/loading/LoadingIllust.png") right bottom / contain no-repeat;
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 38%);
+  mask-image: linear-gradient(to right, transparent 0%, black 38%);
+  animation: loadingIllustIn .9s var(--ease) 2000ms forwards;
+}
+.loading-content {
+  position: absolute;
+  left: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  z-index: 1;
+}
+.loading-welcome {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: var(--color-blue-deep);
+  letter-spacing: .2em;
+}
+.loading-welcome span {
+  display: inline-block;
+  opacity: 0;
+  animation: loadingCharIn .6s var(--ease) forwards;
+}
+.loading-welcome span:nth-child(1) { animation-delay: 0ms; }
+.loading-welcome span:nth-child(2) { animation-delay: 500ms; }
+.loading-welcome span:nth-child(3) { animation-delay: 1000ms; }
+.loading-welcome span:nth-child(4) { animation-delay: 1500ms; }
+/* 足跡: 「ようこそ」の下2remに、画面の左端からイラストの手前まで伸びる（イラストとは重ならない） */
+.loading-foots {
+  position: relative;
+  left: -8vw;
+  margin-top: calc(2rem - 28px);
+  width: calc(100vw - max(480px, 40vw));
+  aspect-ratio: 831 / 129;
+  background: url("../assets/images/loading/LoadingFoots.png") left bottom / 100% 100% no-repeat;
+  clip-path: inset(0 100% 0 0);
+  animation: loadingFootsIn 2000ms linear forwards;
+}
+/* スマートフォン・タブレット(1199px以下)のLoading: 縦長の画面に合わせて、文字・足跡・絵を縦に配置する
+   （位置は、ラフの画像(幅900×高さ1960)の割合）。絵はPCと同じ素材 */
+@media (max-width: 1199px) {
+  .loading-content { display: contents; }
+  .loading-welcome {
+    position: absolute;
+    left: 8.3%;
+    top: 21.4%;
+    font-size: 5.33cqw;
+    line-height: 1.4;
+    letter-spacing: .2em;
+    z-index: 2;
+  }
+  .loading-foots {
+    position: absolute;
+    left: 0;
+    top: 27.6%;
+    width: 100%;
+    margin: 0;
+    z-index: 1;
+  }
+  .loading-illust {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-size: auto 56.6%;
+    background-position: right bottom;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 44%, #000 52%);
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 44%, #000 52%);
+  }
+}
+@keyframes loadingCharIn { to { opacity: 1; } }
+@keyframes loadingFootsIn { to { clip-path: inset(0 0 0 0); } }
+@keyframes loadingIllustIn { to { opacity: 1; } }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+/* 画面を埋める 16:9 の台紙（余白なし）。中の要素はすべて%指定 */
+.hero-canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, 177.78vh);
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%);
+}
+.hero-canvas img { position: absolute; max-width: none; }
+.hero-bg { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+/* ティーセットの切り抜き（1881x751）。台紙の左から32px・下端にそろえる */
+.hero-teaset { left: 1.667%; bottom: 0; width: 97.97%; height: auto; }
+/* 吹き出し: しっぽの先がティーポットの注ぎ口に重なる */
+.hero-cloud {
+  position: absolute;
+  left: 18.5%;
+  top: -4%;
+  width: 62.7%;
+  transform-origin: 26.5% 99%;
+}
+.hero-cloud img { position: static; width: 100%; height: auto; }
+.hero-copy {
+  position: absolute;
+  left: 30.3%;
+  top: 18%;
+  width: 39.2%;
+}
+.hero-copy img { position: static; width: 100%; height: auto; }
+/* 場面を離れる演出の間は、ふわっと現れる動きを止め、JS が不透明度を直接動かす */
+.is-stage .scene-hero.is-leaving .reveal { transition: none !important; }
+/* 湯気のように、ポットの口から吹き出しがふわっと広がる */
+.is-stage .scene-hero .hero-cloud.reveal { transform: scale(.55); }
+.is-stage .scene-hero.is-entered .hero-cloud.reveal {
+  transform: scale(1);
+  transition: opacity .9s var(--ease), transform 1.3s cubic-bezier(.22, .9, .3, 1.05);
+}
+
+
+/* スマートフォン・タブレット(1199px以下)のHero: 縦長の画面に合わせた配置（ラフの画像 幅900×高さ2000 を基準）
+   ・ティーセットは、どの画面でも、画面の幅いっぱい。縦に収まらない(横長の)画面では、下が切れる
+   ・吹き出しは、しっぽの先がポットの注ぎ口に合うように、ティーセットの位置から決める。
+     注ぎ口の上の高さに収まるよう、足りないときだけ小さくする */
+@media (max-width: 1199px) {
+  .hero {
+    --vh: 1vh;
+    min-height: 100vh;
+  }
+  .hero-canvas { display: contents; }
+  .hero-bg { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-teaset { left: 0; top: var(--hero-top); width: 100%; height: auto; }
+  .hero-cloud {
+    left: calc(17.5cqw - 34.45 * var(--uc));
+    top: calc(var(--hero-tip) - 60.4 * var(--uc));
+    width: calc(130 * var(--uc));
+  }
+  .hero-copy {
+    left: calc(17.5cqw - 34.45 * var(--uc) + 22.95 * var(--uc));
+    top: calc(var(--hero-tip) - 60.4 * var(--uc) + 25 * var(--uc));
+    width: calc(88 * var(--uc));
+  }
+}
+@media (max-width: 1199px) {
+  .hero {
+    --hero-top: max(calc(100 * var(--vh) - 177.78cqw), calc(40 * var(--vh) - 47.65cqw));   /* ティーセットの上端 */
+    --hero-tip: calc(var(--hero-top) + 47.65cqw - 2cqw);                                   /* 吹き出しのしっぽの先(注ぎ口のすこし上) */
+    --uc: min(1cqw, calc((var(--hero-tip) - 86px) / 60.4));                               /* 吹き出しの大きさの基準 */
+  }
+}
+@supports (height: 1svh) {
+  @media (max-width: 1199px) {
+    .hero { --vh: 1svh; min-height: 100svh; }
+  }
+}
+
+
+
+/* ==========================================================================
+   スマートフォン・タブレット(1199px以下): 画面1枚ずつ切り替える表示（js/main.js が制御）
+   ・各場面は画面いっぱいの「面」。中身が長い面は、面の中だけで縦にスクロールする
+   ・面の切り替えは、スワイプ（面の端まで来たあと）かナビ。ホワイトアウトで切り替わる
+   ・Hero → Concept だけは、ポットの湯気が増えて下へずれていく演出
+   ========================================================================== */
+.steam-sp { display: none; }
+@media (max-width: 1199px) {
+  html { overflow: hidden; overscroll-behavior: none; }
+  body.is-compact { overflow: hidden; height: 100%; overscroll-behavior: none; }
+  /* 画面の中央に、スマートフォンと同じ幅の「縦長の画面」を置く。タブレットは、左右が余白になる。
+     中の文字や絵の大きさは、この幅(cqw)に比例する（スマートフォンでは画面の幅と同じ） */
+  :root { --col-w: max(min(100vw, 360px), min(100vw, 50vh)); }
+  .is-compact .stage {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: var(--col-w);
+    transform: translateX(-50%);
+    container-type: inline-size;
+    overflow: hidden;
+  }
+  .is-compact .scene {
+    position: absolute;
+    inset: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    visibility: hidden;
+  }
+  .is-compact .scene.is-current { visibility: visible; }
+  .is-compact .fx {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .is-compact .fx.is-on { visibility: visible; }
+  /* Menu → News: 下から紙色の面が一直線にせり上がり、その手前を、小さなフクロウが右下から左上へ飛ぶ */
+  .is-compact .fx-rise { z-index: 12; overflow: hidden; }
+  .is-compact .fx-rise-paper {
+    position: absolute;
+    inset: 0;
+    background: var(--color-bg-paper);
+    transform: translateY(100%);
+    will-change: transform;
+  }
+  .is-compact .fx-rise-owl {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 26cqw;
+    aspect-ratio: 1.4 / 1;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .is-compact .rise-owl-frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transform: scaleX(-1); }   /* 絵は右向き。左へ飛ぶので、左右を反転 */
+  /* Heroを離れる演出の間は、ふわっと現れる動きを止め、JSが不透明度を直接動かす */
+  .is-compact .scene-hero.is-leaving .reveal { transition: none !important; }
+  .is-compact .fx-flash { z-index: 20; background: var(--color-white); opacity: 0; }
+
+  /* 湯気（SP）: 小さいまま変わらず、コマが進むほど、ポットが下へずれて、湯気が増える。
+     位置は、ラフの画像(幅900×高さ約1960)の割合。下をそろえる */
+  .is-compact .steam-layer { display: none; }
+  .is-compact .fx-steam-bg { background: var(--color-bg-paper); }
+  .is-compact .steam-sp { display: block; position: absolute; max-width: none; height: auto; opacity: 0; }
+  .is-compact .steam-sp--0 { left: -27.9cqw; bottom: 40.9cqw; width: 167.8cqw; }
+  .is-compact .steam-sp--1 { left: -31.2cqw; bottom: -4.1cqw; width: 167.8cqw; }
+  .is-compact .steam-sp--2 { left: 0; bottom: -5cqw; width: 100cqw; }
+  .is-compact .steam-sp--3 { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+}
+/* ==========================================================================
+   Rabbit trail (hidden character game)
+   ========================================================================== */
+
+
+/* 動物を見つけたとき: 動物が飛び出し、動物と吹き出し以外が暗くなる（PC・スマートフォン共通） */
+.animal-dim {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  background: rgba(40, 32, 24, .62);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s var(--ease), visibility .35s var(--ease);
+}
+body.is-animal-open .animal-dim { opacity: 1; visibility: visible; }
+.animal-spot { position: fixed; inset: 0; z-index: 710; pointer-events: none; visibility: hidden; }
+body.is-animal-open .animal-spot,
+body.is-animal-closing .animal-spot { visibility: visible; }
+.animal-wrap { position: fixed; pointer-events: none; }
+.animal-wrap img { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+.animal-bubble {
+  position: fixed;
+  max-width: calc(100vw - 24px);
+  background: var(--color-bg-paper);
+  color: var(--color-ink-soft);
+  border-radius: 22px;
+  padding: 20px 22px 16px;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, .28);
+  pointer-events: auto;
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity .25s var(--ease), transform .3s cubic-bezier(.3, 1.35, .5, 1);
+}
+.animal-bubble.is-show { opacity: 1; transform: scale(1); }
+.animal-bubble h3 { font-family: var(--font-heading); color: var(--color-blue); font-size: 1.15rem; margin: 0 22px 8px 0; }
+.animal-bubble p { font-size: .9rem; line-height: 1.75; margin: 0 0 10px; }
+.animal-bubble small { display: block; font-size: .78rem; line-height: 1.6; color: var(--color-pink); white-space: pre-line; }
+.animal-bubble-close { position: absolute; top: 8px; right: 12px; font-size: 1.3rem; line-height: 1; color: var(--color-ink-soft); padding: 4px; }
+/* 吹き出しのしっぽ: 動物の側へ */
+.animal-bubble::after { content: ""; position: absolute; width: 0; height: 0; }
+.animal-bubble.is-r::after { left: -11px; top: 26px; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-right: 13px solid var(--color-bg-paper); }
+.animal-bubble.is-l::after { right: -11px; top: 26px; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 13px solid var(--color-bg-paper); }
+.animal-bubble.is-t::after { left: calc(var(--tail-x, 50%) - 10px); bottom: -11px; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 13px solid var(--color-bg-paper); }
+.animal-bubble.is-r { transform-origin: left top; }
+.animal-bubble.is-l { transform-origin: right top; }
+.animal-bubble.is-t { transform-origin: center bottom; }.rabbit-count {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 150;
+  background: var(--color-white);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: .8rem;
+  color: var(--color-ink-soft);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Hero: 「森の動物と隠れんぼ」／Concept以降: 「見つけた動物 n/5」 */
+.rabbit-count .rabbit-count-hero,
+.rabbit-count .rabbit-count-start { display: none; }
+/* 最初にHeroにいるあいだだけ「森の動物と隠れんぼ」。最初の湯気の切り替え中だけ「↓START！」。そのあとは、Heroに戻っても「見つけた動物」 */
+body.is-hero-active:not(.has-started) .rabbit-count .rabbit-count-hero { display: inline; }
+body.is-hero-active:not(.has-started) .rabbit-count .rabbit-count-main,
+body.is-starting .rabbit-count .rabbit-count-main,
+body.is-starting .rabbit-count .rabbit-count-hero { display: none; }
+body.is-starting .rabbit-count .rabbit-count-start { display: inline; }
+
+/* ==========================================================================
+   Stage / Scenes
+   PC(1200px以上): 絵本のように、画面1枚ごとに場面が切り替わる（js/main.js が制御）。
+   スマホ・タブレット: 各場面を縦に並べて表示する。
+   ========================================================================== */
+.fx { display: none; }
+.scene-canvas { position: relative; }
+
+.is-stage { overflow: hidden; height: 100vh; }
+.is-stage .stage { position: fixed; inset: 0; overflow: hidden; }
+.is-stage .scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.is-stage .scene.is-current { visibility: visible; }
+.is-stage .hero { min-height: 0; height: 100%; }
+
+/* 各場面の中身は、場面に入ったとき(is-entered)に順番に現れる */
+.is-stage .scene .reveal { opacity: 0; transform: translateY(24px); }
+.is-stage .scene .reveal.drop-in { transform: translateY(-46px); }
+.is-stage .scene.is-entered .reveal { opacity: 1; transform: translateY(0); }
+.is-stage .scene.is-entered .reveal.drop-in {
+  transition: opacity .6s var(--ease), transform .6s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* 1920x1080 のキャンバスを、画面に合わせて拡大縮小して配置（News=全体が入る / Map=画面いっぱい） */
+.is-stage .scene-canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%) scale(var(--k-contain, 1));
+}
+.is-stage .scene-map .scene-canvas { height: 1146px; transform: translate(-50%, -50%) scale(var(--k-cover, 1)); }
+/* News / Footer: 縮尺は画面幅に比例（高さが足りないときだけ縮める）。キャンバスの高さは画面に合わせて変わる */
+.is-stage .scene-news .scene-canvas {
+  height: var(--ch-news, 1080px);
+  transform: translate(-50%, -50%) scale(var(--k-news, 1));
+}
+.is-stage .scene-footer .scene-canvas {
+  height: var(--ch-foot, 1080px);
+  transform: translate(-50%, -50%) scale(var(--k-foot, 1));
+}
+
+/* 場面の切り替え演出（時間で動く） */
+.is-stage .fx {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  visibility: hidden;
+  pointer-events: none;
+}
+.is-stage .fx.is-on { visibility: visible; }
+
+/* Hero -> Concept: 湯気 */
+.fx-steam-bg { position: absolute; inset: 0; background: var(--color-bg); opacity: 0; }
+.steam-layer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, 134vh);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.4);
+  will-change: transform, opacity;
+}
+
+/* Concept -> Menu: 木立が上から被さり、ぼけて薄れる */
+.fx-canopy-img {
+  position: absolute;
+  inset: 0;
+  background: url("../assets/images/concept/canopy.jpg") center / cover no-repeat;
+  clip-path: inset(0 0 100% 0);
+  transition: opacity 1.2s var(--ease), filter 1.2s var(--ease);
+  will-change: clip-path, opacity, filter;
+}
+.fx-canopy.is-dissolving .fx-canopy-img {
+  opacity: 0;
+  filter: blur(14px) brightness(1.35);
+}
+
+/* News -> Map: 木々が下から上がり、左右に開く */
+.fx-trees { transform: translateY(100%); will-change: transform; }
+
+/* Map -> Footer / ナビでの移動: 一瞬白く光る */
+.is-stage .fx-flash { z-index: 20; background: var(--color-white); opacity: 0; }
+@keyframes flashPulse {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Menu: 背景がぼけた状態から鮮明になり、そのあとでタイトル・スライドが現れる */
+.is-stage .menu-hero,
+.is-stage .menu-slides,
+.is-stage .menu-dots { transition: opacity .8s var(--ease); }
+.is-stage .scene-menu:not(.is-ui) .menu-slides,
+.is-stage .scene-menu:not(.is-ui) .menu-nav,
+.is-stage .scene-menu:not(.is-ui) .menu-dots { opacity: 0; pointer-events: none; }
+.is-stage .menu-tablet-bg { transition: filter 1.4s var(--ease); }
+.is-stage .scene-menu.is-blurred .menu-tablet-bg { filter: blur(16px) brightness(1.25); }
+.is-stage .menu-stage { height: 100%; }
+
+/* Menu -> News: Newsの画面が右からスライドして覆う */
+.is-stage .scene-news.is-sliding { box-shadow: -28px 0 70px rgba(45, 32, 20, .28); }
+
+/* ==========================================================================
+   Concept page
+   ========================================================================== */
+/* 1920x1080 の画面を基準にした配置（%指定で幅に追従） */
+.concept-hero {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  text-align: center;
+}
+.concept-hero .section-title { margin-bottom: 0; }
+.concept-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.concept-block {
+  position: absolute;
+  z-index: 1;
+  width: 29.69%;
+  text-align: left;
+  font-size: clamp(.78rem, .85vw, 1rem);
+}
+.concept-block:nth-child(2) { left: 35.16%; top: 21.8%; }
+.concept-block:nth-child(3) { left: 62.4%; top: 45.4%; }
+.concept-block:nth-child(4) { left: 15.4%; bottom: 11.85%; margin-bottom: 2rem; }
+.concept-block p { color: var(--color-ink-soft); margin-bottom: .6em; }
+.concept-foots {
+  position: absolute;
+  left: 16.15%;
+  top: 0;
+  height: 100%;
+  aspect-ratio: 1020 / 1080;
+  background: url("../assets/images/decorations/ConceptFoots.png") 0 0 / 100% 100% no-repeat;
+  z-index: 0;
+  pointer-events: none;
+}
+/* 足跡は、場面が切り替わったあと、テキストと一緒に上から順に現れる */
+.is-stage .concept-foots { clip-path: inset(0 0 100% 0); }
+.is-stage .scene-concept.is-entered .concept-foots {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 2.4s cubic-bezier(.45, .05, .3, 1) .25s;
+}
+@media (max-width: 1199px) {
+  .concept-foots { display: none; }
+  .concept-hero { position: static; padding-top: 72px; }
+  .concept-track { height: auto; padding: 40px 24px 60px; }
+  .concept-block { position: static; width: auto; max-width: 480px; margin: 0 auto; padding: 28px 8px; }
+}
+
+/* ==========================================================================
+   Menu page
+   ========================================================================== */
+.menu-page { padding-top: 0; }
+.menu-hero {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 7;
+  text-align: center;
+}
+.menu-hero .section-title { margin-bottom: 0; }
+
+/* -- Menu tablet carousel (menu_base.jpg を画面いっぱいに) -- */
+.menu-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.menu-tablet-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, 177.68vh);
+  aspect-ratio: 1672 / 941;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  --wrap-w: max(100vw, 177.68vh);
+  /* 1920x1080 で 640x420。石板の中央に配置 */
+  --slide-w: 42%;
+  --slide-h: 49%;
+  --slide-l: 29%;
+  --slide-t: 25.5%;
+}
+.menu-tablet-bg {
+  position: absolute;
+  inset: -1.5%;
+  width: 103%;
+  height: 103%;
+  max-width: none;
+  object-fit: cover;
+  pointer-events: none;
+}
+.menu-slides {
+  position: absolute;
+  inset: 0;
+}
+.menu-slide {
+  position: absolute;
+  left: var(--slide-l);
+  top: var(--slide-t);
+  width: var(--slide-w);
+  height: var(--slide-h);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s var(--ease);
+}
+.menu-slide.is-active { opacity: 1; visibility: visible; }
+/* 別の場面にいるときは、メニューのスライドが見えたままにならないようにする（自分の visibility が、場面の visibility: hidden に勝ってしまうため） */
+.scene:not(.is-current) .menu-slide.is-active { visibility: hidden; }
+.menu-slide-photo {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 4%;
+  height: 60%;
+  width: 92%;
+  object-fit: cover;
+  border-radius: 6px;
+  /* box-shadow: 0 6px 16px rgba(74, 65, 55, .25); */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+  mask-composite: intersect;
+}
+
+.menu-slide-copy {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 4%;
+  height: 30%;
+  /* background: rgba(248, 244, 233, .94); */
+  border-radius: 8px;
+  padding: 8px 12px;
+  backdrop-filter: blur(2px);
+  overflow: hidden;
+}
+.menu-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .3em .8em;
+  margin-bottom: clamp(.4rem, .7vw, .7rem);
+}
+.menu-slide-copy h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  color: var(--color-ink);
+  line-height: 1.35;
+}
+/* 「期間限定」などのタグ: 明朝体＋四角いフレーム */
+.menu-badge {
+  font-family: "Shippori Mincho", "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "MS PMincho", serif;
+  font-size: clamp(.62rem, .85vw, .78rem);
+  font-weight: 600;
+  letter-spacing: .08em;
+  line-height: 1.5;
+  color: var(--color-pink);
+  border: 1px solid var(--color-pink);
+  border-radius: 0;
+  padding: 0 .6em;
+  white-space: nowrap;
+}
+/* サブタイトル: 帯付き（スイーツ=ピンク / ドリンク=水色） */
+.menu-slide-copy .menu-subtitle {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: clamp(.4rem, .7vw, .7rem);
+  padding: 1px .9em;
+  font-size: clamp(.62rem, .9vw, .85rem);
+  font-family: "Zen Kaku Gothic New", var(--font-body);
+  font-weight: 500;
+  letter-spacing: .12em;
+  line-height: 1.6;
+  color: var(--color-white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.menu-subtitle--sweets { background: var(--color-pink); }
+.menu-subtitle--drink { background: #7db4d3; }
+.menu-slide-copy .menu-desc {
+  font-size: clamp(.6rem, 1vw, .74rem);
+  color: var(--color-ink-soft);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* .menu-slide の範囲だけが光る（端はぼかす） */
+.menu-flash {
+  position: absolute;
+  left: var(--slide-l);
+  top: var(--slide-t);
+  width: var(--slide-w);
+  height: var(--slide-h);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+  mask-composite: intersect;
+  background: var(--color-white);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.menu-flash.is-flashing { animation: flashPulse .45s ease-out; }
+
+.menu-nav {
+  position: absolute;
+  top: calc(var(--slide-t) + var(--slide-h) / 2);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(248, 244, 233, .9);
+  color: var(--color-blue-deep);
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-soft);
+  transition: transform .2s var(--ease), background .2s var(--ease), opacity .8s var(--ease);
+  z-index: 6;
+}
+.menu-nav::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+.menu-nav--prev::before { transform: translateX(3px) rotate(-45deg); }
+.menu-nav--next::before { transform: translateX(-3px) rotate(135deg); }
+.menu-nav--prev { left: var(--slide-l); transform: translate(calc(-100% - 1rem), -50%); }
+.menu-nav--next { left: calc(var(--slide-l) + var(--slide-w)); transform: translate(1rem, -50%); }
+.menu-nav--prev:hover { transform: translate(calc(-100% - 1rem), -50%) scale(1.08); background: var(--color-white); }
+.menu-nav--next:hover { transform: translate(1rem, -50%) scale(1.08); background: var(--color-white); }
+
+.menu-dots {
+  position: absolute;
+  left: var(--slide-l);
+  width: var(--slide-w);
+  top: calc(var(--slide-t) + var(--slide-h) + 1rem);
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 6;
+}
+.menu-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .75);
+  transition: background .2s var(--ease), transform .2s var(--ease);
+}
+.menu-dot.is-active { background: var(--color-blue); transform: scale(1.2); }
+
+/* ウサギが画面中央上から石板の左側を回って走り、走り終えたところで、立っているウサギとタヌキが現れる（位置は menu_back.jpg と同じ） */
+.menu-animal {
+  position: absolute;
+  width: auto;
+  max-width: none;
+  opacity: 0;
+  z-index: 3;
+  user-select: none;
+}
+.menu-animal--usagi { left: 19%; top: 56.4%; height: 19.2%; }
+.menu-animal--tanuki { left: 72.6%; top: 24.3%; height: 16%; }
+button.menu-animal { display: block; padding: 0; background: none; border: 0; cursor: pointer; pointer-events: none; }
+.menu-stage.is-playing button.menu-animal { pointer-events: auto; }
+.menu-animal img { height: 100%; width: auto; max-width: none; transition: transform .25s var(--ease); }
+.menu-animal img { transform-origin: 50% 90%; }
+/* ホバーで、少しだけ傾いて元に戻る */
+.menu-animal:hover img, .menu-animal:focus-visible img { animation: menuAnimalTilt .55s var(--ease); }
+@keyframes menuAnimalTilt {
+  0% { transform: rotate(0); }
+  35% { transform: rotate(-4deg); }
+  70% { transform: rotate(2deg); }
+  100% { transform: rotate(0); }
+}
+.menu-animal:focus-visible { outline: none; }
+/* ホバーの吹き出し */
+.menu-animal-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  margin-bottom: 10px;
+  transform: translate(-50%, 6px);
+  background: var(--color-blue-deep);
+  color: var(--color-white);
+  font-size: clamp(.7rem, .95vw, .95rem);
+  line-height: 1.5;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s var(--ease);
+}
+.menu-animal-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-left: -6px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 9px solid var(--color-blue-deep);
+}
+.menu-animal:hover .menu-animal-bubble,
+.menu-animal:focus-visible .menu-animal-bubble { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.menu-stage.is-playing .menu-animal {
+  animation: menuBackIn .6s ease-out 1.9s both;
+}
+@keyframes menuBackIn { to { opacity: 1; } }
+
+.menu-rabbit-run {
+  position: absolute;
+  left: 50%;
+  top: -9%;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+/* 4コマ: 0% (50%,-9%) → 100% (21%,50%) を3等分した4地点を、パッ、パッと移動 */
+.menu-stage.is-playing .menu-rabbit-run {
+  animation: menuRabbitPath 2.2s both;
+}
+@keyframes menuRabbitPath {
+  0%   { left: 50%;    top: -9%;   transform: rotate(-49deg); opacity: 1; animation-timing-function: steps(1, end); }
+  25%  { left: 38%; top: 10.67%; transform: rotate(-49deg); animation-timing-function: steps(1, end); }
+  50%  { left: 25%; top: 30.33%; transform: rotate(-49deg); animation-timing-function: steps(1, end); }
+  75%  { left: 21%;    top: 50%;   transform: rotate(-49deg); animation-timing-function: linear; }
+  90%  { left: 21%;    top: 50%;   transform: rotate(-49deg); opacity: 1; }
+  100% { left: 21%;    top: 50%;   transform: rotate(-49deg); opacity: 0; }
+}
+.menu-rabbit-frame {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+.menu-rabbit-frame--a { width: calc(var(--wrap-w) * .0565); opacity: 1; }
+.menu-rabbit-frame--b { width: calc(var(--wrap-w) * .108); opacity: 0; }
+/* usagiRun01 → 02 → 01 → 02（各コマは位置の切り替わりと同期） */
+.menu-stage.is-playing .menu-rabbit-frame--a { animation: menuFrameA 2.2s steps(1, end) both; }
+.menu-stage.is-playing .menu-rabbit-frame--b { animation: menuFrameB 2.2s steps(1, end) both; }
+@keyframes menuFrameA { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } }
+@keyframes menuFrameB { 0% { opacity: 0; } 25% { opacity: 1; } 50% { opacity: 0; } 75% { opacity: 1; } }
+
+@media (max-aspect-ratio: 4/3) {
+  .menu-stage { height: auto; overflow: visible; }
+  .menu-tablet-wrap { position: relative; left: auto; top: auto; width: 100%; transform: none; --wrap-w: 100vw; }
+}
+
+
+
+/* ==========================================================================
+   Trees transition (News -> Map)  ※ .fx-trees の中
+   ========================================================================== */
+.trees-panel {
+  position: absolute;
+  top: 0;
+  width: 58%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+.trees-panel--left {
+  left: 0;
+  /* 絵を途中で切らず、高さに合わせて全体を表示（幅は絵の縦横比で決まる） */
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: left center;
+}
+.trees-panel--right {
+  right: 0;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: right center;
+}
+
+/* ==========================================================================
+   News page
+   ========================================================================== */
+.news-page {
+  padding-top: 40px;
+  background: var(--color-bg-paper);
+}
+.news-hero {
+  text-align: center;
+  padding: 72px 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.news-lead { color: var(--color-ink-soft); margin-bottom: 8px; }
+
+.news-owls {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* 羽ばたくフクロウ: 3枚の絵をコマ送りで切り替えながら、左上からお知らせの手前まで飛ぶ */
+.news-owl-flying {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(195px, 22.5vw, 420px);
+  aspect-ratio: 1.4 / 1;
+  opacity: 0;
+}
+.owl-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.news-owls.is-playing .news-owl-flying { animation: newsOwlFly 1.8s var(--ease) forwards; }
+.news-owls.is-playing .owl-frame--1 { animation: owlFlap1 1s steps(1, end) infinite; }
+.news-owls.is-playing .owl-frame--2 { animation: owlFlap2 1s steps(1, end) infinite; }
+.news-owls.is-playing .owl-frame--3 { animation: owlFlap3 1s steps(1, end) infinite; }
+@keyframes owlFlap1 { 0% { opacity: 1; } 33.3% { opacity: 0; } }
+@keyframes owlFlap2 { 0% { opacity: 0; } 33.3% { opacity: 1; } 66.6% { opacity: 0; } }
+@keyframes owlFlap3 { 0% { opacity: 0; } 66.6% { opacity: 1; } }
+@keyframes newsOwlFly {
+  0% { opacity: 0; transform: translate(-16vw, -4vh) scale(1.1); }
+  12% { opacity: 1; }
+  82% { opacity: 1; transform: translate(19vw, 5vh) scale(.8); }
+  100% { opacity: 0; transform: translate(21vw, 6vh) scale(.7); }
+}
+
+/* 枝にとまったフクロウ（お知らせバッジのフクロウと同じ位置） */
+.news-owl-perched {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  width: 330px;
+  opacity: 0;
+}
+.is-stage .news-owl-perched {
+  top: calc(var(--header-h) + 3rem + 4rem);
+  right: 0;
+  width: 15%;
+  max-width: 420px;
+}
+.news-owls.is-playing .news-owl-perched {
+  animation: newsOwlPerchedIn .9s var(--ease) 1.5s forwards;
+}
+@keyframes newsOwlPerchedIn {
+  to { opacity: 1; }
+}
+
+/* お知らせ: 吹き出し。クリックで全文の表示／折りたたみ */
+.news-list {
+  max-width: 560px;
+  margin: 1rem auto;
+  padding: 40px 24px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.news-item {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+.news-bubble {
+  position: relative;
+  background: #7a6f62;
+  color: var(--color-white);
+  border-radius: 10px;
+  padding: 14px 30px 12px;
+  box-shadow: var(--shadow-soft);
+  transition: background .35s var(--ease), color .35s var(--ease);
+}
+.news-bubble::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 22px;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-right: 15px solid #7a6f62;
+  transition: border-right-color .35s var(--ease);
+}
+.news-item.is-open .news-bubble { background: #fcfbf4; color: var(--color-ink); padding-top: 18px; padding-bottom: 20px; }
+.news-item.is-open .news-bubble::before { border-right-color: #fcfbf4; }
+.news-item:hover .news-bubble { filter: brightness(1.04); }
+.news-item:focus-visible .news-bubble { box-shadow: 0 0 0 3px var(--color-pink), var(--shadow-soft); }
+
+.news-date {
+  font-family: var(--font-en);
+  font-weight: 600;
+  letter-spacing: .05em;
+  line-height: 1.5;
+  display: block;
+}
+.news-item.is-open .news-date { color: var(--color-ink-soft); }
+.news-bubble h3 { font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.6; }
+.news-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .4s var(--ease);
+}
+.news-body p {
+  overflow: hidden;
+  min-height: 0;
+  font-size: .9rem;
+  white-space: pre-line;
+  opacity: 0;
+  transition: opacity .3s var(--ease);
+}
+.news-item.is-open .news-body { grid-template-rows: 1fr; }
+.news-item.is-open .news-body p { opacity: .9; margin-top: 12px; transition-delay: .1s; }
+
+/* 吹き出しの左にあるアイコン: 開いている=手紙、閉じている=巻物 */
+.news-icon {
+  position: absolute;
+  left: -190px;
+  top: 50%;
+  width: 160px;
+  height: 190px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.news-icon img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity .3s var(--ease), transform .35s var(--ease);
+}
+.news-icon-open { opacity: 0; transform: scale(.85); }
+.news-icon-closed { transform: scale(.62); }
+.news-item.is-open .news-icon-open { opacity: 1; transform: scale(1); }
+.news-item.is-open .news-icon-closed { opacity: 0; transform: scale(.4); }
+@media (max-width: 1199px) {
+  .news-list { padding-left: 64px; }
+  .news-icon { left: -58px; top: 6px; width: 64px; height: 76px; transform: none; }
+}
+.acorn-sns {
+  text-align: center;
+  padding: 20px 24px 110px;
+}
+.acorn-sns h3 {
+  font-family: var(--font-heading);
+  color: var(--color-blue);
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+.acorn-title { margin-bottom: 12px; line-height: 1; }
+.acorn-title img { width: 43%; max-width: 100%; height: auto; margin: 0 auto; }
+.acorn-sns p { color: var(--color-ink-soft); margin-bottom: 36px; }
+.acorn-list {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.acorn-item { display: block; text-align: center; }
+.acorn-icon {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 12px;
+  position: relative;
+  transition: transform .25s var(--ease);
+}
+.acorn-icon img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.acorn-item:hover .acorn-icon { transform: translateY(-10px); }
+.acorn-item span { font-size: 1.05rem; font-weight: 700; letter-spacing: .04em; color: var(--color-ink-soft); }
+
+/* リス（伝えるどんぐりの左）: ホバー／クリックで吹き出し */
+.acorn-sns { position: relative; }
+.acorn-risu {
+  position: absolute;
+  right: 100%;
+  bottom: 0;
+  margin-right: 32px;
+  height: 150px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.acorn-risu img { height: 100%; width: auto; max-width: none; transform-origin: 50% 90%; }
+.acorn-risu:hover img,
+.acorn-risu:focus-visible img { animation: menuAnimalTilt .55s var(--ease); }
+.acorn-risu:focus-visible { outline: none; }
+.acorn-risu-bubble {
+  position: absolute;
+  left: 58%;
+  bottom: 100%;
+  margin-bottom: 10px;
+  transform: translate(-50%, 6px);
+  background: var(--color-blue-deep);
+  color: var(--color-white);
+  font-size: .95rem;
+  line-height: 1.5;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s var(--ease);
+}
+.acorn-risu-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-left: -6px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 9px solid var(--color-blue-deep);
+}
+.acorn-risu:hover .acorn-risu-bubble,
+.acorn-risu:focus-visible .acorn-risu-bubble,
+.acorn-risu.is-talk .acorn-risu-bubble { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+@media (max-width: 1199px) {
+  .acorn-risu { position: relative; right: auto; display: block; height: 140px; margin: 0 auto 28px; }
+}
+/* ==========================================================================
+   Map page
+   ========================================================================== */
+.map-page { padding-top: 40px; }
+.map-hero {
+  position: relative;
+  text-align: center;
+  padding: 96px 24px 40px;
+  background: linear-gradient(180deg, rgba(243,237,224,0) 0%, var(--color-bg) 92%),
+    url("../assets/images/map/map-frame.jpg") center 30% / cover no-repeat;
+  min-height: 46vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.map-copy { color: var(--color-blue-deep); font-family: var(--font-heading); font-size: 1.15rem; letter-spacing: .08em; margin-bottom: 8px; text-shadow: 0 2px 12px rgba(243,237,224,.9); }
+.map-content {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 24px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.map-frame {
+  width: 100%;
+  aspect-ratio: 560 / 600;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink);
+  font-size: 1.1rem;
+  text-align: center;
+}
+.map-frame { position: relative; overflow: hidden; }
+.map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
+/* クリックするまで地図は操作せず、ホイールで場面の切り替えができるようにする */
+.map-frame.is-active iframe { pointer-events: auto; }
+.map-row { margin-bottom: 24px; }
+.map-row dt { font-size: .9rem; color: var(--color-pink); letter-spacing: .08em; line-height: 1.6; }
+.map-row dd { margin: 6px 0 0 36px; font-size: 1.15rem; color: var(--color-ink-soft); line-height: 1.5; }
+.map-row dd small { display: block; font-size: .8rem; }
+.map-deer, .map-scroll { display: none; }
+.is-stage .map-scroll, .is-stage .map-deer { display: block; position: absolute; max-width: none; height: auto; }
+/* PC: 巻物(1040×775)は、地図と営業時間の後ろ。シカは、巻物の左に立ち、体の右が少し巻物にかかる（キャンバス 1920×1146 の座標） */
+.is-stage .map-scroll { left: 470px; top: 279px; width: 980px; pointer-events: none; }   /* 左右中央（(1920 − 980) ÷ 2）。地図などは動かさない */
+.is-stage .map-deer { left: 128px; top: 549px; width: 380px; z-index: 2; pointer-events: none; }
+.map-lead-sp { display: none; }
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  background: var(--color-bg-soft) url("../assets/images/loading/back.jpg") center / cover no-repeat;
+  overflow: hidden;
+}
+.footer-scene {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+.footer-scene img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+}
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 40px 28px 48px;
+}
+.footer-title img { max-width: 320px; }
+.footer-nav a {
+  display: block;
+  width: 260px;
+  max-width: 100%;
+  color: var(--color-ink-soft);
+}
+.footer-nav-en {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.3;
+  border-bottom: 2px solid var(--color-blue);
+  transition: color .25s var(--ease), border-color .25s var(--ease);
+}
+.footer-nav li { margin-bottom: 16px; }
+.footer-nav a span {
+  display: block;
+  margin-top: 6px;
+  text-align: right;
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--color-blue);
+}
+.footer-nav a:hover .footer-nav-en { color: var(--color-pink); border-color: var(--color-pink); }
+.footer-sns { display: flex; flex-direction: column; gap: 10px; }
+.footer-sns a {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  transition: transform .25s var(--ease);
+}
+.footer-sns a img { width: 64px; height: 76px; object-fit: contain; object-position: left center; }
+.footer-sns a span { font-size: .95rem; color: var(--color-ink-soft); }
+.footer-sns a:hover { transform: translateY(-4px); }
+.footer-logo a { display: block; }
+.footer-logo img { width: 280px; height: auto; }
+.footer-copyright { font-size: .85rem; color: var(--color-blue); }
+/* ==========================================================================
+   Stage mode overrides (PC) - News / Map / Footer を1画面に収める
+   ========================================================================== */
+.is-stage .scene-news,
+.is-stage .scene-map { padding-top: 0; }
+.is-stage .scene-news .scene-canvas,
+.is-stage .scene-map .scene-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.is-stage .news-hero { padding: var(--news-lead-top, 150px) 24px 0; }
+.is-stage .news-list {
+  padding: 0 24px;
+  max-width: 662px;
+  width: 100%;
+  /* 開閉で「伝えるどんぐり」が動かないよう高さを固定（両方開いた最大416pxに余白を足した540px。画面が低いときだけ縮む） */
+  flex: 0 1 490px;
+  min-height: 400px;
+}
+.is-stage .acorn-sns { padding: 28px 24px 0; }
+.is-stage .acorn-sns p { margin-bottom: 20px; }
+
+.is-stage .scene-map { background: var(--color-bg) url("../assets/images/map/map-back.jpg") center / cover no-repeat; }   /* 背景は風景だけ。巻物とシカは別素材 */
+/* Map: 1920x1080 のキャンバス上に、背景の巻物に合わせて配置 */
+.is-stage .scene-map .scene-canvas { display: block; }
+.is-stage .map-hero { background: none; min-height: 0; padding: 0; display: block; }
+.is-stage .map-copy {
+  position: absolute;
+  top: var(--map-copy-top, 160px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-shadow: none;
+}
+.is-stage .map-content { position: static; max-width: none; padding: 0; display: block; }
+.is-stage .map-frame {
+  position: absolute;
+  left: 554px;
+  top: 345px;
+  width: 560px;
+  height: 600px;
+  aspect-ratio: auto;
+  font-size: calc(1.8rem * var(--tx-map, 1));
+}
+.is-stage .map-info { position: absolute; left: 1140px; top: 362px; width: 300px; }
+.is-stage .map-row { margin-bottom: 52px; }
+.is-stage .map-row dt { font-size: calc(.95rem * var(--tx-map, 1)); }
+.is-stage .map-row dd { margin: 12px 0 0 36px; font-size: calc(1.5rem * var(--tx-map, 1)); }
+.is-stage .map-row dd small { font-size: calc(1rem * var(--tx-map, 1)); margin-top: 6px; }
+.is-stage .map-row:nth-child(1) { margin-bottom: 67px; }
+.is-stage .map-row:nth-child(2) { margin-bottom: 72px; }
+.is-stage .map-row:nth-child(3) { margin-bottom: 35px; }
+/* セクションタイトルは全場面で同じ位置・大きさ（画面上端から画面幅の2.6%、高さは画面幅の3.125%）。
+   縮尺のかかるキャンバスの外に置き、画面の縦横比に左右されないようにする */
+.is-stage .scene-news > .section-title,
+.is-stage .scene-map > .section-title {
+  position: absolute;
+  top: 2.6vw;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+}
+/* ≤1199px（縦並び）では、キャンバスの手前に通常の流れで置く */
+.news-page > .section-title,
+.map-page > .section-title { padding-top: 72px; margin-bottom: 0; }
+/* フクロウが飛んできて手紙を落とす → アイコンが落ちてくる → 吹き出しがアイコンから開く（PC） */
+.is-stage .news-item .news-icon { opacity: 0; }
+.is-stage .news-item .news-bubble { clip-path: inset(-40px calc(100% + 40px) -40px -40px); }
+.is-stage .scene-news.is-entered .news-item .news-icon {
+  animation: newsIconDrop .8s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+.is-stage .scene-news.is-entered .news-item .news-bubble {
+  animation: newsBubbleOpen .7s var(--ease) both;
+}
+.is-stage .scene-news.is-entered .news-item:nth-child(1) .news-icon { animation-delay: 1.45s; }
+.is-stage .scene-news.is-entered .news-item:nth-child(1) .news-bubble { animation-delay: 2.1s; }
+.is-stage .scene-news.is-entered .news-item:nth-child(2) .news-icon { animation-delay: 1.85s; }
+.is-stage .scene-news.is-entered .news-item:nth-child(2) .news-bubble { animation-delay: 2.5s; }
+@keyframes newsIconDrop {
+  0% { opacity: 0; translate: 60px -240px; rotate: -25deg; }
+  30% { opacity: 1; }
+  100% { opacity: 1; translate: 0 0; rotate: 0deg; }
+}
+@keyframes newsBubbleOpen {
+  0% { clip-path: inset(-40px calc(100% + 40px) -40px -40px); transform: translateX(-30px); }
+  100% { clip-path: inset(-40px -40px -40px -40px); transform: translateX(0); }
+}
+/* セクションタイトルの大きさ・位置は画面幅に比例（1920×1080で高さ60px・上から50px） */
+.is-stage .section-title img { height: 3.125vw; }
+.is-stage .concept-hero,
+.is-stage .menu-hero { top: 2.6vw; }
+/* Footer: 左に絵（右端をぼかす）、右に1920x1080のキャンバスで文字類を配置 */
+.is-stage .site-footer { height: 100%; }
+.is-stage .footer-scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  aspect-ratio: 1122 / 1080;
+  -webkit-mask-image: linear-gradient(to right, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 82%, transparent 100%);
+}
+.is-stage .footer-scene img { object-fit: cover; object-position: left center; }
+.is-stage .footer-content { position: static; display: block; padding: 0; }
+.is-stage .footer-content > * { position: absolute; margin: 0; }
+.is-stage .footer-title { left: 1160px; top: 195px; width: 600px; }
+.is-stage .footer-title img { max-width: none; width: 100%; height: auto; }
+.is-stage .footer-nav { left: 1162px; top: 398px; width: 260px; }
+.is-stage .footer-nav-en { font-size: 1.75rem; }
+.is-stage .footer-sns { left: 1568px; top: 398px; gap: 32px; }
+.is-stage .footer-sns a { gap: 22px; }
+.is-stage .footer-sns a img { width: 68px; height: 84px; }
+.is-stage .footer-logo { left: 1245px; bottom: 162px; width: 420px; }
+.is-stage .footer-logo img { width: 100%; }
+.is-stage .footer-copyright { left: 1220px; bottom: 56px; width: 420px; text-align: center; }
+/* ==========================================================================
+   Menu modal（メニュー一覧）
+   ========================================================================== */
+.menu-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 580;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(74, 65, 55, .5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s var(--ease), visibility .3s var(--ease);
+}
+.menu-modal.is-open { opacity: 1; visibility: visible; }
+.menu-modal-card {
+  position: relative;
+  width: min(900px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--color-bg-paper);
+  border-radius: var(--radius-l);
+  padding: 36px 52px 48px;
+  box-shadow: var(--shadow-soft);
+  transform: translateY(14px) scale(.97);
+  transition: transform .3s var(--ease);
+}
+.menu-modal.is-open .menu-modal-card { transform: none; }
+.menu-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--color-ink-soft);
+}
+.menu-modal-top { text-align: center; margin-bottom: 16px; }
+.menu-modal-logo { width: 150px; height: auto; margin: 0 auto 8px; }
+.menu-modal-title {
+  font-family: var(--font-en);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  line-height: 1.3;
+  color: var(--color-blue);
+}
+.menu-modal-section { margin-bottom: 36px; }
+.menu-modal-section:last-child { margin-bottom: 0; }
+.menu-modal-head {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-blue);
+  border-bottom: 2px solid var(--color-blue);
+  padding-bottom: 2px;
+  margin-bottom: 14px;
+}
+.menu-modal-head--sweets { color: var(--color-pink); border-bottom-color: var(--color-pink); }
+.menu-modal-cols { display: grid; grid-template-columns: 1.15fr 1fr; gap: 12px 48px; }
+.menu-modal-label { font-family: var(--font-en); font-size: .85rem; color: var(--color-blue); margin-bottom: 6px; }
+.menu-list li { padding: 5px 0 5px 14px; }
+.menu-list-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-size: 1rem; }
+.menu-list-name { flex: 1 1 auto; display: flex; align-items: baseline; min-width: 0; letter-spacing: .04em; }
+/* 商品名と価格をつなぐ点線 */
+.menu-list-name::after {
+  content: "";
+  flex: 1 1 auto;
+  min-width: 16px;
+  margin-left: .6em;
+  border-bottom: 1px dotted #a89d88;
+  transform: translateY(-.28em);
+}
+.menu-list-price { font-family: var(--font-en); font-weight: 600; font-size: 1rem; color: var(--color-ink-soft); white-space: nowrap; }
+.menu-list-desc { margin: 0 0 8px; font-size: .8rem; line-height: 1.6; color: var(--color-ink-soft); }
+.menu-modal-col--tea .menu-list li { padding-bottom: 6px; }
+.menu-list--sweets li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 6.5em 11em;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 1rem;
+  padding: 6px 0 6px 14px;
+}
+.menu-list-note { font-family: var(--font-en); font-weight: 600; font-size: 1rem; color: var(--color-ink-soft); white-space: nowrap; }
+.menu-list-kind { font-size: .85em; font-weight: 400; margin-left: .3em; color: var(--color-ink-soft); white-space: nowrap; }
+@media (max-width: 720px) {
+  .menu-modal-card { padding: 32px 22px 36px; }
+  .menu-modal-cols { grid-template-columns: 1fr; }
+  .menu-list--sweets li { grid-template-columns: minmax(0, 1fr) auto; }
+  .menu-list--sweets .menu-list-note { grid-column: 1 / -1; text-align: right; }
+}
+/* サブコピー（News冒頭の文・「リスが不思議な…」・Mapの文）: 大きさと上下の間隔をそろえる。
+   タイトルからは約16px、下の要素までは約20px（1920px幅のとき。画面幅に比例） */
+.is-stage .scene-news { --fs-lead: calc(1vw / var(--k-news, 1)); --gap-top: calc(.8333vw / var(--k-news, 1)); --gap-bottom: calc(1.0417vw / var(--k-news, 1)); }
+.is-stage .scene-map { --fs-lead: calc(1vw / var(--k-cover, 1)); }
+.is-stage .news-lead,
+.is-stage .acorn-sns p,
+.is-stage .map-copy {
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  letter-spacing: .08em;
+}
+.is-stage .news-lead { margin: 0 0 var(--gap-bottom); }
+.is-stage .acorn-title { margin-bottom: var(--gap-top); }
+.is-stage .acorn-sns p { margin: 0 0 var(--gap-bottom); }
+/* ==========================================================================
+   かくれている動物（下層ページ）
+   耳や尻尾だけをひょっこり出して、しばらく見せてはひっこめることを繰り返す。
+   ホバー／クリックで全身が出てくる（クリックで名前のポップアップ＋カウント）
+   ========================================================================== */
+.hidden-animal {
+  position: absolute;
+  z-index: 4;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: var(--away);
+  transition: transform .7s cubic-bezier(.3, 1.35, .5, 1), opacity .3s ease;
+}
+.hidden-animal img { width: 100%; height: auto; display: block; max-width: none; transform-origin: 50% 90%; }
+.scene.is-entered .hidden-animal { opacity: 1; pointer-events: auto; }
+/* JS が一定の間隔で .is-tease を付け外しする（耳や尻尾だけが出ている状態） */
+.hidden-animal.is-tease { transform: var(--tease); }
+/* 全身が飛び出すのは、クリック（タップ）したときだけ（ホバーでは出ない。PCもスマートフォンも同じ） */
+.hidden-animal.is-full { transform: translate(0, 0); }
+.hidden-animal:focus-visible { outline: none; }
+
+/* 下の端から、耳だけ出す */
+.hidden-animal--concept-deer   { left: 0; top: 30vh; width: 14vw; --away: translateX(-110%); --tease: translateX(-82%); }
+.hidden-animal--concept-deer img { transform: scaleX(-1); }   /* 左端から、おしりだけ見せる */
+.hidden-animal--concept-rabbit { right: 13vw;  bottom: 0; width: 7vw;  --away: translateY(110%); --tease: translateY(78%); }
+/* 右の端から、尻尾だけ出す（絵を反転して、尻尾を端の側に向ける） */
+.hidden-animal--news           { right: 0; top: 56vh; width: 9vw; --away: translateX(110%); --tease: translateX(72%); }
+.hidden-animal--news img { transform: scaleX(-1); }
+/* 右下の角から、鼻先と牙だけ出す（絵を反転して、鼻先を左に向ける） */
+.hidden-animal--map            { right: 0; bottom: 0; width: 18vw; --away: translate(115%, 30%); --tease: translate(82%, 12%); }
+.hidden-animal--map img { transform: scaleX(-1); }
+/* 左の端から、尻尾だけ出す（絵を反転して、尻尾を端の側に向ける） */
+.hidden-animal--menu           { left: 0; top: 20vh; width: 6.5vw; --away: translateX(-110%); --tease: translateX(-72%); }
+.hidden-animal--menu img { transform: scaleX(-1); }
+
+/* スマートフォン・タブレット(1199px以下): 左右の端から、頭や尻尾だけをのぞかせる。出る場面と動物はPCと同じ */
+@media (max-width: 1199px) {
+  /* 画面に固定する（場面のスクロールで、隠れている動物が出てこないように） */
+  .is-compact .hidden-animal { position: fixed; }
+  .is-compact .hidden-animal--concept-deer   { left: 0; right: auto; top: 38vh; bottom: auto; width: 40cqw; --away: translateX(-110%); --tease: translateX(-84%); }
+  .is-compact .hidden-animal--concept-rabbit { left: calc(50cqw - 11cqw); right: auto; top: auto; bottom: 0; width: 22cqw; --away: translateY(110%); --tease: translateY(78%); }   /* 下の端から、耳だけ出す（PCと同じ） */
+  .is-compact .hidden-animal--menu           { left: 0; right: auto; top: calc((100vh - 2400px * var(--k-menu, .36)) / 2 + 297px * var(--k-menu, .36));   /* タヌキ・タイトルと同じ高さ */ bottom: auto; width: 20cqw; --away: translateX(-110%); --tease: translateX(-68%); }
+  .is-compact .hidden-animal--news           { left: auto; right: 0; top: 122cqw; bottom: auto; width: 26cqw; --away: translateX(110%); --tease: translateX(78%); }   /* お知らせ(下端134cqw)と「伝えるどんぐり」(153cqw〜)のすき間あたり。出る量は、吹き出し・どんぐりの右の余白(約5cqw)に収まる程度 */
+  .is-compact .hidden-animal--map            { left: auto; right: 0; top: auto; bottom: 12vh; width: 38cqw; --away: translate(115%, 30%); --tease: translate(78%, 12%); }
+}
+/* Hero: たまに画面の端からのぞく動物 */
+.hero-walker {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+/* 画面の端からのぞくおまけは、ティーセットより手前に出す */
+.hero-walker--edge { z-index: 6; }
+.hero-walker img, .hero-canvas .hero-walker img { position: static; display: block; width: 100%; height: auto; max-width: none; }
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1199px) {
+}
+
+@media (max-width: 1199px) {
+  :root { --header-h: max(56px, 11cqw); }
+  .site-header { padding: 0 3.5cqw; background: var(--color-bg-paper); }
+  /* ロゴは中央（タップしやすいよう高さ32px以上）。ハンバーガーは右 */
+  .site-header .logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .site-nav { margin-left: auto; }
+  /* ロゴの後ろのぼかしは無し。高さ32px以上は、そのまま確保 */
+  .site-header .logo img { height: max(32px, 6.9cqw); padding: 0; backdrop-filter: none; -webkit-backdrop-filter: none; border-radius: 0; }
+
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: max(40px, 10.5cqw);
+    height: max(40px, 10.5cqw);
+    border-radius: 50%;
+    background: var(--color-brown);
+  }
+  .nav-toggle span { width: 46%; background: var(--color-white); }
+  /* メニュー(モーダル): 幅320px・高さは中身なり。ハンバーガーを押すと、ヘッダーの下から、下へ伸びて出てくる。
+     ページ一覧とSNSのどんぐりを縦に並べる */
+  .nav-list {
+    position: fixed;
+    top: var(--header-h);
+    right: 3.5cqw;
+    left: auto;
+    bottom: auto;
+    width: min(320px, 100cqw - 7cqw);
+    max-height: calc(100vh - var(--header-h) - 12px);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    background: var(--color-bg-paper);
+    padding: 28px 24px 28px;
+    border-radius: 0 0 18px 18px;
+    box-shadow: var(--shadow-soft);
+    overflow-y: auto;
+    clip-path: inset(0 0 100% 0);   /* 閉じている間は、上に縮んでいる */
+    opacity: 0;
+    visibility: hidden;
+    transition: clip-path .4s var(--ease), opacity .25s var(--ease), visibility .4s var(--ease);
+  }
+  .site-nav.is-open .nav-list {
+    clip-path: inset(0 0 0 0);   /* 上から下へ伸びる */
+    opacity: 1;
+    visibility: visible;
+  }
+  .nav-item { width: 100%; margin: 0 0 22px; border: 0; }
+  /* 英字 → 青い線 → 右寄せの副題 の順（線は、::after を使う） */
+  .nav-link { display: flex; flex-direction: column; align-items: stretch; padding: 0; font-size: 24px; line-height: 1.3; }   /* 文字の大きさは、Footerと同じ */
+  .nav-link::after {
+    content: "";
+    display: block;
+    order: 1;
+    position: static;
+    height: 2px;
+    margin-top: 2px;
+    background: var(--color-blue);
+    transform: none;
+  }
+  .nav-link:hover::after { transform: none; }
+  .nav-link .nav-sub {
+    order: 2;
+    position: static;
+    display: block;
+    margin: 6px 0 0;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    text-align: right;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--color-blue);
+    opacity: 1;
+    transform: none;
+  }
+  .nav-extra { display: block; }
+  .nav-sns { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; }
+  .nav-sns a { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .nav-sns span { font-size: 12px; letter-spacing: .06em; color: var(--color-ink-soft); white-space: nowrap; }   /* ラベルの大きさは、Footerと同じ */
+  .nav-sns img { display: block; width: 56px; height: auto; }   /* Footerのどんぐりと同じ大きさ */
+  .notice-badge { top: auto; bottom: 20px; right: 20px; width: 80px; }
+
+  .concept-block { text-align: center; }
+
+  .footer-title img { max-width: 280px; }
+
+    .rabbit-count { left: 12px; bottom: 12px; font-size: .72rem; padding: 6px 14px; }
+
+  .loading-content { left: 6%; gap: 18px; }
+
+  .news-owl-perched { width: 180px; top: 4px; }
+
+  .menu-nav { width: 36px; height: 36px; font-size: 1.1rem; }
+  .menu-slide-copy .menu-desc { -webkit-line-clamp: 3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-welcome span { animation: none; opacity: 1; }
+  .loading-foots { animation: none; clip-path: inset(0 0 0 0); }
+  .loading-illust { animation: none; opacity: 1; }
+  .news-owl-flying { animation: none !important; opacity: 0; }
+  .news-owl-perched { animation: none; opacity: 1; }
+  .menu-rabbit-run { animation: none; opacity: 0; }
+  .menu-animal { animation: none; opacity: 1; }
+}
+
+/* フッターの場面では、ヘッダーとフクロウのバッジを隠す */
+.site-header { transition: background .3s var(--ease), opacity .4s var(--ease), visibility .4s var(--ease); }
+body.is-footer-active .site-header { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* スマートフォン・タブレット(1199px以下)のConcept: ラフ(幅900×高さ約2000)に合わせた配置
+   ・足跡は、右下をそろえて、高さはタイトルの下16pxから画面の下まで
+   ・足跡の上に文字が重なっても読めるよう、文字の下に、背景と同じ色の半透明の帯を付ける */
+@media (max-width: 1199px) {
+  .is-compact .scene-concept { background: var(--color-bg-paper); }
+  .is-compact .scene-concept .concept-track { position: relative; height: max(100vh, 200cqw); padding: 0; }
+  .is-compact .scene-concept .concept-foots {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    aspect-ratio: auto;
+    /* 画面いっぱいの枠に、絵を、縦横比を保ったまま、高さいっぱいで右下にそろえる（左にはみ出す分は切れる） */
+    background: url("../assets/images/concept/sp/ConseptFoots.webp") right bottom / auto 100% no-repeat;
+    z-index: 0;
+  }
+  .is-compact .scene-concept .concept-block {
+    position: absolute;
+    z-index: 1;
+    margin: 0;
+    padding: .45em .8em 0;   /* 下は、文章の margin-bottom があるので 0 */
+    max-width: none;
+    text-align: left;
+    font-size: .8rem;
+    line-height: 1.7;
+    letter-spacing: .1em;
+    background: rgba(248, 244, 233, .82);
+    box-shadow: 0 0 .5em .4em rgba(248, 244, 233, .82);
+    border-radius: .4em;
+  }
+  .is-compact .scene-concept .concept-block:nth-child(2) { left: 6.7%; top: calc(var(--c-text-top) + 20px); bottom: auto; width: 85.6%; }
+  .is-compact .scene-concept .concept-block:nth-child(3) { left: 28.3%; top: 47%; bottom: auto; width: 66.7%; }
+  .is-compact .scene-concept .concept-block:nth-child(4) { left: 6.7%; top: auto; bottom: 15%; width: 70%; }
+}
+@supports (height: 1svh) {
+  @media (max-width: 1199px) {
+    .is-compact .scene-concept .concept-track { height: max(100svh, 200cqw); }
+  }
+}
+
+/* スマートフォン・タブレット(1199px以下): セクションタイトルは、すべての場面で、同じ画像・同じ高さ・同じ位置 */
+@media (max-width: 1199px) {
+  .is-compact .scene {
+    --c-title-h: clamp(36px, 11cqw, 64px);
+    --c-title-top: calc(var(--header-h) + 16px);       /* タイトルの上: ヘッダーの高さ + 16px（ヘッダー56pxなら72px） */
+    --c-top: calc(var(--c-title-top) + var(--c-title-h) + 16px);   /* タイトルの下16px（足跡の始まり） */
+    --c-text-top: calc(var(--c-title-top) + var(--c-title-h) + 24px);   /* タイトルの下24px（文章の始まり） */
+  }
+  .is-compact .concept-hero,
+  .is-compact .menu-hero { position: absolute; top: var(--c-title-top); left: 0; right: 0; padding: 0; z-index: 3; }
+  .is-compact .scene > .section-title { position: absolute; top: var(--c-title-top); left: 0; right: 0; margin: 0; padding: 0; z-index: 3; }
+  .is-compact .concept-hero .section-title,
+  .is-compact .menu-hero .section-title { margin: 0; padding: 0; }
+  .is-compact .section-title img { height: var(--c-title-h); width: auto; max-width: none; margin: 0 auto; }
+  /* タイトルの下から、中身を始める */
+  .is-compact .scene-news,
+  .is-compact .scene-map { padding-top: var(--c-text-top); }
+  .is-compact .news-hero { padding-top: 0; }
+  .is-compact .map-hero { padding-top: 0; }
+}
+
+/* スマートフォン・タブレット: 「見つけた動物」の数。顔を出す動物(z-index: 4)より下に置く */
+@media (max-width: 1199px) {
+  .is-compact .rabbit-count { z-index: 3; }
+}
+
+/* スマートフォン(720px以下): 「お知らせです」の吹き出しを、フクロウの左に付ける。フクロウは、より右へ */
+@media (max-width: 1199px) {
+  .notice-badge {
+    width: auto;
+    right: 0;
+    bottom: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .notice-badge-text {
+    margin: 0 12px 0 0;
+    font-size: .8rem;
+    padding: 6px 14px;
+  }
+  .notice-badge-text::after {
+    top: 50%;
+    right: -8px;
+    margin-top: -6px;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 9px solid var(--color-brown);
+    border-right: 0;
+  }
+  .notice-badge-owl { width: clamp(88px, 12vh, 150px); flex: none; }
+}
+
+/* スマートフォン・タブレット: Concept → Menu は、PCと同じ「木立が上から被さり、ぼけて薄れる」演出。木立はSP用の画像 */
+@media (max-width: 1199px) {
+  .is-compact .fx-canopy-img { background-image: url("../assets/images/concept/sp/ConseptBack.jpg"); }
+  .is-compact .menu-hero,
+  .is-compact .menu-slides,
+  .is-compact .menu-dots { transition: opacity .8s var(--ease); }
+  .is-compact .scene-menu:not(.is-ui) .menu-slides,
+  .is-compact .scene-menu:not(.is-ui) .menu-nav,
+  .is-compact .scene-menu:not(.is-ui) .menu-dots { opacity: 0; pointer-events: none; }
+  .is-compact .menu-tablet-bg { transition: filter 1.4s var(--ease); }
+  .is-compact .scene-menu.is-blurred .menu-tablet-bg { filter: blur(16px) brightness(1.25); }
+}
+
+/* スマートフォン・タブレット(1199px以下)のMenu: ラフ(1080×1920)に合わせた配置。
+   絵と中身は、1080×1920 の台紙の上に置き、画面にすべて収まる大きさに縮める（余った部分は、同じ絵をぼかして敷く）
+   石板の上に写真、その下の枠に商品名・サブタイトル・説明。タヌキは石板の右上、ウサギは枠の左 */
+@media (max-width: 1199px) {
+  .is-compact .scene-menu { overflow: hidden; background: #6f8a4a; }
+  .is-compact .scene-menu::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    background: url("../assets/images/menu/sp/MenuBack.jpg") center / cover no-repeat;
+    filter: blur(18px);
+  }
+  .is-compact .menu-stage { position: relative; height: 100%; overflow: hidden; }
+  .is-compact .menu-tablet-wrap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1080px;
+    height: 2400px;
+    aspect-ratio: auto;
+    transform: translate(-50%, -50%) scale(var(--k-menu, .36));
+    /* 写真: 新しい背景(1080×2400)の石板の上面に収まる範囲 */
+    --slide-l: 120px;
+    --slide-t: 577px;
+    --slide-w: 870px;
+    --slide-h: 520px;
+  }
+  .is-compact .menu-tablet-bg { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* タヌキ・ウサギ（クリックでメニュー一覧） */
+  .is-compact .menu-animal { height: auto; }
+  .is-compact .menu-animal img { width: 100%; height: auto; }
+  .is-compact .menu-animal--tanuki { left: 815px; top: 297px; width: 180px; }
+  .is-compact .menu-animal--usagi { left: 20px; top: 1612px; width: 145px; }   /* 足が、枠(下端1862px)の下にはみ出す */
+  .is-compact .menu-animal-bubble { font-size: 34px; padding: 10px 26px; margin-bottom: 18px; }
+  .is-compact .menu-animal-bubble::after { margin-left: -12px; border-left-width: 12px; border-right-width: 12px; border-top-width: 18px; }
+
+  /* 写真: 石板の上いっぱい */
+  .is-compact .menu-slide-photo { left: 0; top: 0; width: 100%; height: 100%; border-radius: 0; }
+
+  /* 説明の枠: 石板の下 */
+  .is-compact .menu-slide-copy {
+    left: -52px;   /* 枠の左端 68px − 写真の左端 120px */
+    top: 645px;    /* 枠の上端 1222px − 写真の上端 577px */
+    bottom: auto;
+    width: 954px;
+    height: 640px;   /* 全部の商品で同じ高さ（いちばん長い説明でも収まる）。ドットの位置を固定するため */
+    padding: 36px 40px 40px 27px;
+    background: var(--color-bg-paper);
+    border-radius: 0;
+    overflow: visible;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .is-compact .menu-title-row { margin-bottom: 22px; }
+  .is-compact .menu-slide-copy h3 { font-size: 46px; line-height: 1.35; }
+  .is-compact .menu-badge { font-size: 24px; }
+  .is-compact .menu-slide-copy .menu-subtitle {
+    display: block;
+    width: auto;
+    max-width: none;
+    margin: 0 0 26px -15px;
+    padding: 12px 20px;
+    font-size: 34px;
+    letter-spacing: .04em;
+    line-height: 1.5;
+    white-space: normal;
+    text-overflow: clip;
+  }
+  .is-compact .menu-slide-copy .menu-desc {
+    display: block;
+    -webkit-line-clamp: unset;
+    margin: 0 0 0 77px;
+    font-size: 33px;
+    line-height: 1.85;
+    overflow: visible;
+  }
+
+  /* 左右の矢印・ドット・光: 台紙(1080×1920)の大きさで */
+  .is-compact .menu-nav { width: 110px; height: 110px; }
+  .is-compact .menu-nav::before { width: 30px; height: 30px; border-top-width: 6px; border-left-width: 6px; }
+  /* 左右の矢印は、画面の端から同じ距離（40px。矢印の円の外側の端から） */
+  .is-compact .menu-nav--prev { left: 95px; transform: translate(-50%, -50%); }
+  .is-compact .menu-nav--next { left: calc(1080px - 95px); transform: translate(-50%, -50%); }
+  .is-compact .menu-nav--prev:hover { transform: translate(-50%, -50%) scale(1.08); }
+  .is-compact .menu-nav--next:hover { transform: translate(-50%, -50%) scale(1.08); }
+  /* ドットは、説明の枠(上1222px・高さ640px)の下。ウサギの吹き出し(1868〜1940px)より下 */
+  .is-compact .menu-dots { left: 68px; width: 954px; top: 2000px; gap: 26px; }
+  .is-compact .menu-dot { width: 22px; height: 22px; }
+}
+
+/* スマートフォン・タブレットのMenu: タヌキの左に、いつも吹き出し「ぜんぶのメニュー見る？」を出す（タップで一覧が開くことが分かるように）
+   ウサギの足元（右下）には、時々、吹き出し「メニュー一覧を見ますか？」が出る */
+@media (max-width: 1199px) {
+  .is-compact .menu-animal--tanuki .menu-animal-bubble,
+  .is-compact .menu-animal--tanuki:hover .menu-animal-bubble {
+    left: auto;
+    right: 100%;
+    bottom: auto;
+    top: 50%;   /* タヌキの体の真ん中 */
+    margin: 0 26px 0 0;
+    padding: 14px 32px;
+    font-size: 34px;
+    transform: translateY(-50%);
+    opacity: 1;
+    visibility: inherit;   /* 他の場面では見えない（visible だと場面の hidden に勝ってしまう） */
+  }
+  .is-compact .menu-animal--tanuki .menu-animal-bubble::after {
+    left: calc(100% - 8px);   /* 角丸の枠にしっかり重ねる */
+    top: 50%;
+    margin: -14px 0 0 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 20px solid var(--color-blue-deep);
+    border-right: 0;
+  }
+  .is-compact .menu-animal--usagi .menu-animal-bubble,
+  .is-compact .menu-animal--usagi:hover .menu-animal-bubble {
+    left: 100%;
+    bottom: auto;
+    top: 75%;   /* ウサギの足元（枠の下端のすぐ下）。ドットより上 */
+    margin: 0 0 0 14px;
+    padding: 12px 28px;
+    font-size: 32px;
+    transform: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .is-compact .menu-animal--usagi.is-talk .menu-animal-bubble { opacity: 1; visibility: inherit; }
+  .is-compact .menu-animal--usagi .menu-animal-bubble::after {
+    left: auto;
+    right: calc(100% - 8px);   /* 角丸の枠にしっかり重ねる */
+    top: 50%;
+    margin: -14px 0 0 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 0;
+    border-right: 20px solid var(--color-blue-deep);
+  }
+}
+
+/* スマートフォン・タブレットのMenu: ウサギが、中央上よりやや右の小道から、石板の左上の手前（小道の上）へ走ってきて（4コマ）、フェードアウトする。
+   そのあと、メニューの写真・枠が現れ、タヌキとウサギが立つ（位置は 1080×2400 の台紙の座標） */
+@media (max-width: 1199px) {
+  .is-compact .menu-stage.is-playing .menu-rabbit-run { animation: menuRabbitPathSp 2.2s both; }
+  .is-compact .menu-rabbit-frame--a { width: 120px; }
+  .is-compact .menu-rabbit-frame--b { width: 230px; }
+  .is-compact .menu-stage.is-playing .menu-rabbit-frame--a { animation: menuFrameASp 2.2s steps(1, end) both; }
+  .is-compact .menu-stage.is-playing .menu-rabbit-frame--b { animation: menuFrameBSp 2.2s steps(1, end) both; }
+}
+@keyframes menuRabbitPathSp {
+  /* 体の傾きは、1コマ目(-49deg)から、コマごとに少しずつ左向き（傾きを小さく）にする */
+  0%   { left: 660px; top: 130px; transform: rotate(-49deg); opacity: 1; animation-timing-function: steps(1, end); }
+  25%  { left: 523px; top: 233px; transform: rotate(-42deg); animation-timing-function: steps(1, end); }
+  50%  { left: 387px; top: 337px; transform: rotate(-35deg); animation-timing-function: steps(1, end); }
+  75%  { left: 250px; top: 440px; transform: rotate(-28deg); animation-timing-function: linear; }
+  90%  { left: 250px; top: 440px; transform: rotate(-28deg); opacity: 1; }
+  100% { left: 250px; top: 440px; transform: rotate(-28deg); opacity: 0; }
+}
+/* 4コマ: usagiRun01 → 02 → 01 → 02（位置の切り替わりと同期） */
+@keyframes menuFrameASp { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } }
+@keyframes menuFrameBSp { 0% { opacity: 0; } 25% { opacity: 1; } 50% { opacity: 0; } 75% { opacity: 1; } }
+
+/* SPのフクロウ: 左上から羽ばたきながら飛んできて、枝（右端）にとまる姿と入れ替わる */
+@keyframes newsOwlFlySp {
+  0%   { opacity: 0; transform: translate(-62vw, -12vw) scale(1.05); }
+  12%  { opacity: 1; }
+  82%  { opacity: 1; transform: translate(52vw, 0) scale(.85); }
+  100% { opacity: 0; transform: translate(54vw, 0) scale(.77); }   /* 着地では、とまった姿(幅40vw)と同じ大きさ・位置 */
+}
+@keyframes newsIconDropSp {
+  0% { opacity: 0; translate: 10vw -55vw; rotate: -25deg; }
+  30% { opacity: 1; }
+  100% { opacity: 1; translate: 0 0; rotate: 0deg; }
+}
+@keyframes newsBubbleOpenSp {
+  0% { clip-path: inset(-10vw calc(100% + 10vw) -10vw -10vw); transform: translateX(-7vw); }
+  100% { clip-path: inset(-10vw -10vw -10vw -10vw); transform: translateX(0); }
+}
+
+/* スマートフォン・タブレット(1199px以下)のNews: ラフ(幅900×高さ約2000)に合わせた配置。位置・大きさは、画面の幅(vw)の割合
+   上: タイトル・リード文・お知らせ2件（フクロウが枝から右上にのぞく）／下: 「伝えるどんぐり」・どんぐり3つ・リス */
+@media (max-width: 1199px) {
+  .is-compact .scene-news { padding-top: 0; background: var(--color-bg-paper); }
+  .is-compact .scene-news .scene-canvas { position: relative; height: max(100vh, 222.2cqw); padding: 60.2cqw 0 0; }
+  .is-compact .news-hero { position: absolute; left: 0; right: 0; top: calc(var(--c-text-top) - 3cqw); padding: 0; overflow: visible; }   /* 伝えるどんぐりと同じくらい、タイトルに近づける */
+  .is-compact .news-lead,
+  .is-compact .acorn-sns p { margin: 0; font-size: clamp(.9rem, 3.8cqw, 1.5rem); letter-spacing: .1em; line-height: 1.6; }
+
+  /* フクロウ: 枝にとまった姿を、右上に（右へはみ出す）。飛んでくる動きは出さない */
+  .is-compact .news-owl-flying { top: calc(28.3cqw + 24px); width: 52cqw; }
+
+  /* 手紙・巻物が上から落ちてきて、吹き出しが左から開く（フクロウがとまるころ） */
+  .is-compact .news-item .news-icon { opacity: 0; }
+  .is-compact .news-item .news-bubble { clip-path: inset(-10cqw calc(100% + 10cqw) -10cqw -10cqw); }
+  .is-compact .scene-news.is-entered .news-item .news-icon { animation: newsIconDropSp .8s cubic-bezier(.34, 1.56, .64, 1) both; }
+  .is-compact .scene-news.is-entered .news-item .news-bubble { animation: newsBubbleOpenSp .7s var(--ease) both; }
+  .is-compact .scene-news.is-entered .news-item:nth-child(1) .news-icon { animation-delay: 1.45s; }
+  .is-compact .scene-news.is-entered .news-item:nth-child(1) .news-bubble { animation-delay: 2.1s; }
+  .is-compact .scene-news.is-entered .news-item:nth-child(2) .news-icon { animation-delay: 1.85s; }
+  .is-compact .scene-news.is-entered .news-item:nth-child(2) .news-bubble { animation-delay: 2.5s; }
+  .is-compact .news-owls.is-playing .news-owl-flying { animation: newsOwlFlySp 1.8s var(--ease) forwards; }
+  .is-compact .news-owl-perched { top: calc(33.7cqw + 24px); right: 0; width: 40cqw; max-width: none; }   /* 下端は、1件目の吹き出しの上端より24px下（被る） */
+
+  /* お知らせ */
+  .is-compact .news-list {
+    position: relative;
+    max-width: none;
+    margin: 0 4.8cqw 0 27.8cqw;
+    padding: 0;
+    gap: 4.4cqw;
+  }
+  .is-compact .news-icon { left: -22.9cqw; top: 1cqw; width: 15cqw; height: 17.3cqw; transform: none; }
+  .is-compact .news-bubble {
+    border-radius: 4.4cqw;
+    padding: 3.4cqw 3.2cqw 3.4cqw;
+    font-size: clamp(.8rem, 3.4cqw, 1.3rem);
+  }
+  .is-compact .news-item.is-open .news-bubble { padding-top: 3.4cqw; padding-bottom: 3.6cqw; }
+  .is-compact .news-bubble::before {
+    left: -2.6cqw;
+    top: 5cqw;
+    border-top-width: 1.8cqw;
+    border-bottom-width: 1.8cqw;
+    border-right-width: 3cqw;
+  }
+  .is-compact .news-date { font-size: .85em; }
+  .is-compact .news-bubble h3 { font-size: 1em; line-height: 1.7; margin-top: .4cqw; }
+  .is-compact .news-body p { font-size: 1em; line-height: 1.65; }
+  .is-compact .news-item.is-open .news-body p { margin-top: 3cqw; }
+
+  /* 伝えるどんぐり */
+  .is-compact .acorn-sns { position: absolute; left: 0; right: 0; top: 153cqw; height: 69cqw; padding: 0; }   /* 位置は固定（お知らせを開閉しても動かない） */
+  .is-compact .acorn-title { margin: 0 0 3cqw; }
+  .is-compact .acorn-title img { width: 37cqw; }
+  .is-compact .acorn-list { display: block; position: absolute; left: 0; right: 0; top: 21cqw; gap: 0; }
+  .is-compact .acorn-item { position: absolute; }
+  .is-compact .acorn-item:nth-child(1) { left: 30.5cqw; top: 0; width: 17cqw; }
+  .is-compact .acorn-item:nth-child(2) { left: 50.8cqw; top: 15.9cqw; width: 19.5cqw; }
+  .is-compact .acorn-item:nth-child(3) { left: 73.3cqw; top: 6.1cqw; width: 20cqw; }
+  .is-compact .acorn-icon { width: 100%; height: auto; margin: 0 0 1cqw; }
+  .is-compact .acorn-item:nth-child(1) .acorn-icon { aspect-ratio: 504 / 684; }
+  .is-compact .acorn-item:nth-child(2) .acorn-icon { aspect-ratio: 513 / 609; }
+  .is-compact .acorn-item:nth-child(3) .acorn-icon { aspect-ratio: 520 / 518; }
+  .is-compact .acorn-item span { display: block; font-size: clamp(.8rem, 3.3cqw, 1.3rem); letter-spacing: .06em; white-space: nowrap; margin-left: -50%; margin-right: -50%; }
+
+  /* リス: 左下 */
+  .is-compact .acorn-risu { position: absolute; left: 1.7cqw; right: auto; bottom: 0; top: auto; width: 28cqw; height: auto; margin: 0; }
+  .is-compact .acorn-risu img { width: 100%; height: auto; }
+  .is-compact .acorn-risu-bubble { left: 4cqw; font-size: clamp(.8rem, 3.2cqw, 1.2rem); transform: translate(0, 6px); }
+  .is-compact .acorn-risu-bubble::after { left: 4cqw; margin-left: 0; }
+  .is-compact .acorn-risu:hover .acorn-risu-bubble,
+  .is-compact .acorn-risu:focus-visible .acorn-risu-bubble,
+  .is-compact .acorn-risu.is-talk .acorn-risu-bubble { transform: translate(0, 0); }
+}
+
+/* スマートフォン・タブレット(1199px以下)のMap: ラフ(900×2000)に合わせた配置。
+   絵と中身は、1080×2400 の台紙(背景 MapBack.jpg)の上に置き、画面にすべて収まる大きさに縮める（Menuと同じ。余った部分は同じ絵をぼかして敷く）
+   上の空にはタイトルだけ。地図は巻物の枠の中、営業時間などは下の紙色の枠、シカは地図の右下 */
+@media (max-width: 1199px) {
+  .is-compact .scene-map {
+    padding-top: 0;
+    overflow: hidden;
+    background: #8fb06a;
+    --map-lead-fs: clamp(.9rem, 3.8cqw, 1.5rem);   /* リード文の文字の大きさ（行の高さは1.6倍） */
+    /* 地図の枠の上端（台紙の座標）: リード文の下端 + 80px を、画面の座標から台紙の座標に換算 */
+    --map-top: calc((var(--c-text-top) - 3cqw + 1.6 * var(--map-lead-fs) + 80px - (100vh - 2400px * var(--k-menu, .36)) / 2) / var(--k-menu, .36));
+  }
+  .is-compact .scene-map::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    background: url("../assets/images/map/sp/MapBack.jpg") center / cover no-repeat;
+    filter: blur(18px);
+  }
+  .is-compact .scene-map .scene-canvas {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1080px;
+    height: 2400px;
+    padding: 0;
+    background: url("../assets/images/map/sp/MapBack.jpg") center / 100% 100% no-repeat;
+    transform: translate(-50%, -50%) scale(var(--k-menu, .36));
+  }
+  
+  .is-compact .map-hero { display: none; }
+  /* 巻物(1040×775): 地図の枠(114,786 / 852×618)を、巻物の内側の枠の中心に置く位置・大きさ。地図と営業時間の後ろ */
+  .is-compact .map-scroll { display: block; position: absolute; left: 57px; top: calc(var(--map-top) - 51px); width: 966px; height: auto; max-width: none; pointer-events: none; }
+  .is-compact .map-content { position: static; max-width: none; margin: 0; padding: 0; display: block; }
+  .is-compact .map-frame {
+    position: absolute;
+    left: 114px;   /* 新しい背景の巻物の中に、左右中央で */
+    top: var(--map-top);   /* リード文の下端から80px下（画面の80px。台紙の座標に換算） */
+    width: 852px;
+    height: 618px;
+    aspect-ratio: auto;
+  }
+  .is-compact .map-lead-sp {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--c-text-top) - 3cqw);   /* タイトルの下。Newsのリード文と同じ間隔 */
+    z-index: 3;
+    margin: 0;
+    padding: 0 3cqw;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: var(--map-lead-fs);
+    letter-spacing: .1em;
+    line-height: 1.6;
+    color: var(--color-blue-deep);
+    text-shadow: 0 0 6px var(--color-bg-paper), 0 0 12px var(--color-bg-paper), 0 0 18px var(--color-bg-paper);
+  }
+  .is-compact .scene-map > .section-title img { filter: drop-shadow(0 0 6px var(--color-bg-paper)) drop-shadow(0 0 12px var(--color-bg-paper)); }   /* 木々の上でも読めるように */
+  .is-compact .map-info {
+    position: absolute;
+    left: 127px;
+    top: calc(var(--map-top) + 780px);   /* 地図の枠の下。以前より、40px上 */
+    width: 827px;
+    height: 686px;
+    margin: 0;
+    background: var(--color-bg-paper);
+  }
+  .is-compact .map-row { position: absolute; left: 75px; right: 30px; margin: 0; }
+  .is-compact .map-row:nth-child(1) { top: 62px; }
+  .is-compact .map-row:nth-child(2) { top: 234px; }
+  .is-compact .map-row:nth-child(3) { top: 380px; }
+  .is-compact .map-row:nth-child(4) { top: 554px; }
+  .is-compact .map-row dt { position: absolute; left: 0; top: 4px; font-size: 30px; line-height: 1.6; }
+  .is-compact .map-row dd { margin: 0 0 0 201px; font-size: 48px; line-height: 60px; letter-spacing: .04em; }
+  .is-compact .map-row dd small { font-size: 30px; line-height: 1.5; margin-top: 8px; }
+  .is-compact .map-deer {
+    display: block;
+    position: absolute;
+    left: 720px;
+    top: calc(var(--map-top) + 380px);   /* 地図と一緒に動く */
+    width: 356px;
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+
+/* スマートフォン・タブレット(1199px以下)のFooter: ラフ(幅900×高さ約2000)に合わせた配置。
+   上から、見出し・ページ一覧・SNSのどんぐり・ロゴを縦に並べ、その下の余った高さに、扉の絵を左下そろえで置く。
+   文字・どんぐりなどの大きさは、画面の幅が変わっても同じ（px固定） */
+@media (max-width: 1199px) {
+  .is-compact .site-footer { background: var(--color-bg-paper); display: flex; flex-direction: column; min-height: 100%; }
+  .is-compact .scene-footer .footer-canvas { order: 1; position: static; height: auto; flex: none; }
+  .is-compact .scene-footer .footer-content { position: static; display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 28px 24px 20px; }
+
+  .is-compact .footer-title img { max-width: none; width: 300px; height: auto; display: block; margin: 0 auto; }
+
+  /* ページ一覧 */
+  .is-compact .footer-nav { list-style: none; padding: 0; width: 210px; margin: 28px auto 0; }
+  .is-compact .footer-nav li { margin-bottom: 14px; }
+  .is-compact .footer-nav a { width: 100%; }
+  .is-compact .footer-nav-en { font-size: 24px; line-height: 1.3; }
+  .is-compact .footer-nav a span { margin-top: 4px; font-size: 12px; letter-spacing: .12em; }
+
+  /* SNSのどんぐり: 3つを横に並べ、下をそろえる */
+  .is-compact .footer-sns { margin-top: 16px; flex-direction: row; justify-content: space-around; align-items: flex-end; gap: 0; }
+  .is-compact .footer-sns a { flex-direction: column; justify-content: flex-end; align-items: center; gap: 8px; width: 96px; }
+  .is-compact .footer-sns a img { width: 56px; height: auto; object-position: center bottom; }
+  .is-compact .footer-sns a span { font-size: 12px; letter-spacing: .06em; white-space: nowrap; }
+
+  /* ロゴ: SNSの下 */
+  .is-compact .footer-logo { margin-top: 20px; text-align: center; }
+  .is-compact .footer-logo a { display: inline-block; }
+  .is-compact .footer-logo img { width: 240px; }
+
+  /* 扉の絵: ロゴの下から画面の下まで。左下そろえ（高さに合わせて幅が決まる。左は空いても、詰まってもよい） */
+  .is-compact .footer-scene { order: 2; position: relative; flex: 1 1 auto; min-height: 180px; height: auto; overflow: hidden; }
+  .is-compact .footer-scene img { position: absolute; left: 0; bottom: 0; top: auto; width: auto; height: 100%; max-width: none; object-fit: contain; }
+
+  /* コピーライト: 画面の右から64px、下に固定 */
+  .is-compact .footer-copyright { position: absolute; right: 24px; bottom: 32px; left: auto; width: auto; font-size: 12px; text-align: right; }
+}
+
+/* ==========================================================================
+   Map: 場面が切り替わったあとの登場の順番（PC・スマートフォン・タブレット共通）
+   シカ・タイトル・リード文（シカはすぐ。タイトルとリード文は、ほかの場面と同じふわっと出る動き） →
+   巻物（左から右へ開く） → 地図（白く光って現れる） → 光ったらすぐ、営業時間など（上から下へ伸びる）
+   ========================================================================== */
+.scene-map .map-deer { opacity: 0; }
+.scene-map.is-entered .map-deer { opacity: 1; }   /* フェードなし */
+.scene-map .map-scroll { clip-path: inset(0 100% 0 0); }
+.scene-map .map-frame { opacity: 0; }
+.scene-map .map-info { clip-path: inset(0 0 100% 0); }
+
+.scene-map.is-entered .map-scroll { animation: mapScrollOpen 1.3s cubic-bezier(.45, .05, .25, 1) .9s both; }
+.scene-map.is-entered .map-frame { animation: mapFrameGlow 1.1s ease-out 2.2s both; }
+.scene-map.is-entered .map-info { animation: mapInfoDrop 1.1s cubic-bezier(.3, .1, .2, 1) 2.6s both; }
+
+@keyframes mapScrollOpen {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+/* 白く光りながら現れて、光がおさまって、不透明度1になる */
+@keyframes mapFrameGlow {
+  0% { opacity: 0; filter: brightness(3); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  35% { opacity: .85; filter: brightness(2.4); box-shadow: 0 0 60px 24px rgba(255, 255, 255, .9); }
+  100% { opacity: 1; filter: brightness(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+@keyframes mapInfoDrop {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+/* ==========================================================================
+   タブレット: 縦長の画面(#stage)の左右の余白
+   余白が十分に広いとき(.has-side。JS が付ける)は、左にナビゲーション(スマートフォンのメニューと同じ形)、
+   右にお知らせバッジと動物の数を、出しっぱなしで置く。余白のイラストは .side-art に入れる
+   ========================================================================== */
+.side { display: none; }
+@media (max-width: 1199px) {
+  body.is-compact { background: #eee6d4; }
+  .is-compact .stage { box-shadow: 0 0 46px rgba(60, 45, 30, .18); }
+  body.has-side .side {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: calc((100vw - var(--col-w)) / 2);
+    z-index: 50;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  body.has-side .side--l { left: 0; }
+  body.has-side .side--r { right: 0; justify-content: flex-end; gap: 20px; padding-bottom: 32px; }
+  .side-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; }   /* 余白のイラスト用（今は空） */
+  body.has-side .side > :not(.side-art) { position: relative; z-index: 1; }
+
+  /* 左: ナビゲーション（スマートフォンのメニューと同じ形。ハンバーガーは出さない） */
+  body.has-side .nav-toggle { display: none; }
+  body.has-side .nav-list {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    width: min(320px, 100%);
+    max-height: none;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    clip-path: none;
+    overflow: visible;
+    border-radius: 18px;
+    box-shadow: var(--shadow-soft);
+  }
+  /* 右: お知らせバッジと動物の数 */
+  body.has-side .side .notice-badge { position: relative; right: auto; bottom: auto; top: auto; }
+  body.has-side .side .rabbit-count { position: relative; left: auto; bottom: auto; }
+}
